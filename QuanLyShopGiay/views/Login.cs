@@ -1,7 +1,9 @@
-﻿using System;
+﻿using QuanLyShopGiay.context;
+using System;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Windows.Forms;
+using System.Linq;
 
 namespace QuanLyShopGiay.views
 {
@@ -95,5 +97,50 @@ namespace QuanLyShopGiay.views
             this.ActiveControl = null;
         }
 
+        private void btn_login_Click(object sender, EventArgs e)
+        {
+            string username = text_username.Text.Trim();
+            string password = text_password.Text.Trim();
+
+            // Kiểm tra placeholder
+            if (username == "Username" || password == "Password")
+            {
+                MessageBox.Show("Vui lòng nhập đầy đủ username và password!");
+                return;
+            }
+
+            using (var db = new QLBanGiayContext())
+            {
+                // Tìm tài khoản
+                var taiKhoan = db.TaiKhoans
+                                 .FirstOrDefault(t => t.TenTaiKhoan == username);
+
+                if (taiKhoan == null)
+                {
+                    MessageBox.Show("Username không tồn tại trong hệ thống!");
+                    return;
+                }
+
+                // Kiểm tra quyền
+                if (taiKhoan.QuyenHan != "Quản lý")
+                {
+                    MessageBox.Show("Bạn không có quyền truy cập! (Quyền yêu cầu: Quản lý)");
+                    return;
+                }
+
+                // Kiểm tra mật khẩu
+                if (taiKhoan.MatKhau != password)
+                {
+                    MessageBox.Show("Mật khẩu không đúng!");
+                    return;
+                }
+
+                // Đăng nhập thành công → mở form Main
+                Main mainForm = new Main();
+                this.Hide();
+                mainForm.ShowDialog();
+                this.Show();
+            }
+        }
     }
 }
