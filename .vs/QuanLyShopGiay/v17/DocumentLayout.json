@@ -3,8 +3,28 @@
   "WorkspaceRootPath": "D:\\BaoCaoXML\\QuanLyShopGiay\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{7CE2B0B6-3209-4FD2-9C6E-BEAFB5018B91}|QuanLyShopGiay\\QuanLyShopGiay.csproj|d:\\baocaoxml\\quanlyshopgiay\\quanlyshopgiay\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "AbsoluteMoniker": "D:0:0:{7CE2B0B6-3209-4FD2-9C6E-BEAFB5018B91}|QuanLyShopGiay\\QuanLyShopGiay.csproj|d:\\baocaoxml\\quanlyshopgiay\\quanlyshopgiay\\quanlyhoadon.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{7CE2B0B6-3209-4FD2-9C6E-BEAFB5018B91}|QuanLyShopGiay\\QuanLyShopGiay.csproj|solutionrelative:quanlyshopgiay\\quanlyhoadon.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7CE2B0B6-3209-4FD2-9C6E-BEAFB5018B91}|QuanLyShopGiay\\QuanLyShopGiay.csproj|D:\\BaoCaoXML\\QuanLyShopGiay\\quanlyshopgiay\\chitiethoadon.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{7CE2B0B6-3209-4FD2-9C6E-BEAFB5018B91}|QuanLyShopGiay\\QuanLyShopGiay.csproj|solutionrelative:quanlyshopgiay\\chitiethoadon.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7CE2B0B6-3209-4FD2-9C6E-BEAFB5018B91}|QuanLyShopGiay\\QuanLyShopGiay.csproj|D:\\BaoCaoXML\\QuanLyShopGiay\\quanlyshopgiay\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
       "RelativeMoniker": "D:0:0:{7CE2B0B6-3209-4FD2-9C6E-BEAFB5018B91}|QuanLyShopGiay\\QuanLyShopGiay.csproj|solutionrelative:quanlyshopgiay\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7CE2B0B6-3209-4FD2-9C6E-BEAFB5018B91}|QuanLyShopGiay\\QuanLyShopGiay.csproj|D:\\BaoCaoXML\\QuanLyShopGiay\\quanlyshopgiay\\quanlytaikhoan.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{7CE2B0B6-3209-4FD2-9C6E-BEAFB5018B91}|QuanLyShopGiay\\QuanLyShopGiay.csproj|solutionrelative:quanlyshopgiay\\quanlytaikhoan.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7CE2B0B6-3209-4FD2-9C6E-BEAFB5018B91}|QuanLyShopGiay\\QuanLyShopGiay.csproj|D:\\BaoCaoXML\\QuanLyShopGiay\\quanlyshopgiay\\quanlyhoadon.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{7CE2B0B6-3209-4FD2-9C6E-BEAFB5018B91}|QuanLyShopGiay\\QuanLyShopGiay.csproj|solutionrelative:quanlyshopgiay\\quanlyhoadon.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7CE2B0B6-3209-4FD2-9C6E-BEAFB5018B91}|QuanLyShopGiay\\QuanLyShopGiay.csproj|D:\\BaoCaoXML\\QuanLyShopGiay\\quanlyshopgiay\\quanlytaikhoan.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{7CE2B0B6-3209-4FD2-9C6E-BEAFB5018B91}|QuanLyShopGiay\\QuanLyShopGiay.csproj|solutionrelative:quanlyshopgiay\\quanlytaikhoan.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -14,7 +34,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 1,
+          "SelectedChildIndex": 3,
           "Children": [
             {
               "$type": "Bookmark",
@@ -22,15 +42,72 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
+              "Title": "ChiTietHoaDon.cs [Design]",
+              "DocumentMoniker": "D:\\BaoCaoXML\\QuanLyShopGiay\\QuanLyShopGiay\\ChiTietHoaDon.cs",
+              "RelativeDocumentMoniker": "QuanLyShopGiay\\ChiTietHoaDon.cs",
+              "ToolTip": "D:\\BaoCaoXML\\QuanLyShopGiay\\QuanLyShopGiay\\ChiTietHoaDon.cs [Design]",
+              "RelativeToolTip": "QuanLyShopGiay\\ChiTietHoaDon.cs [Design]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-23T06:41:09.848Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
               "Title": "Form1.cs [Design]",
               "DocumentMoniker": "D:\\BaoCaoXML\\QuanLyShopGiay\\QuanLyShopGiay\\Form1.cs",
               "RelativeDocumentMoniker": "QuanLyShopGiay\\Form1.cs",
               "ToolTip": "D:\\BaoCaoXML\\QuanLyShopGiay\\QuanLyShopGiay\\Form1.cs [Design]",
               "RelativeToolTip": "QuanLyShopGiay\\Form1.cs [Design]",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-28T11:47:52.901Z",
+              "WhenOpened": "2025-10-28T11:47:52.901Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "QuanLyHoaDon.cs [Design]",
+              "DocumentMoniker": "D:\\BaoCaoXML\\QuanLyShopGiay\\QuanLyShopGiay\\QuanLyHoaDon.cs",
+              "RelativeDocumentMoniker": "QuanLyShopGiay\\QuanLyHoaDon.cs",
+              "ToolTip": "D:\\BaoCaoXML\\QuanLyShopGiay\\QuanLyShopGiay\\QuanLyHoaDon.cs [Design]",
+              "RelativeToolTip": "QuanLyShopGiay\\QuanLyHoaDon.cs [Design]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-23T05:02:27.503Z",
               "EditorCaption": " [Design]"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "QuanLyTaiKhoan.cs [Design]",
+              "DocumentMoniker": "D:\\BaoCaoXML\\QuanLyShopGiay\\QuanLyShopGiay\\QuanLyTaiKhoan.cs",
+              "RelativeDocumentMoniker": "QuanLyShopGiay\\QuanLyTaiKhoan.cs",
+              "ToolTip": "D:\\BaoCaoXML\\QuanLyShopGiay\\QuanLyShopGiay\\QuanLyTaiKhoan.cs [Design]",
+              "RelativeToolTip": "QuanLyShopGiay\\QuanLyTaiKhoan.cs [Design]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-23T04:33:50.112Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "QuanLyHoaDon.cs",
+              "DocumentMoniker": "D:\\BaoCaoXML\\QuanLyShopGiay\\QuanLyShopGiay\\QuanLyHoaDon.cs",
+              "RelativeDocumentMoniker": "QuanLyShopGiay\\QuanLyHoaDon.cs",
+              "ToolTip": "D:\\BaoCaoXML\\QuanLyShopGiay\\QuanLyShopGiay\\QuanLyHoaDon.cs",
+              "RelativeToolTip": "QuanLyShopGiay\\QuanLyHoaDon.cs",
+              "ViewState": "AgIAABAAAAAAAAAAAAAwwCQAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-23T06:17:47.73Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "QuanLyTaiKhoan.cs",
+              "DocumentMoniker": "D:\\BaoCaoXML\\QuanLyShopGiay\\QuanLyShopGiay\\QuanLyTaiKhoan.cs",
+              "RelativeDocumentMoniker": "QuanLyShopGiay\\QuanLyTaiKhoan.cs",
+              "ToolTip": "D:\\BaoCaoXML\\QuanLyShopGiay\\QuanLyShopGiay\\QuanLyTaiKhoan.cs",
+              "RelativeToolTip": "QuanLyShopGiay\\QuanLyTaiKhoan.cs",
+              "ViewState": "AgIAABEAAAAAAAAAAAAswCQAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-23T04:36:26.97Z"
             }
           ]
         }
