@@ -28,5 +28,18 @@ namespace QuanLyShopGiay
             // Ẩn Form hiện tại (Form1)
             this.Hide();
         }
+
+        private void btnMain_Click(object sender, EventArgs e)
+        {
+            // Tạo đối tượng Main form
+            Main mainForm = new Main();  // ✔ Đúng
+
+            // Hiển thị form Main
+            mainForm.Show();
+
+            // Ẩn Form hiện tại (Form1)
+            this.Hide();
+        }
+
     }
 }

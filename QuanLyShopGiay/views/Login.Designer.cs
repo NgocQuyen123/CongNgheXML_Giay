@@ -29,10 +29,10 @@
         private void InitializeComponent()
         {
             this.bg_login = new System.Windows.Forms.Panel();
-            this.titleLogin = new System.Windows.Forms.Label();
-            this.text_username = new System.Windows.Forms.TextBox();
-            this.text_password = new System.Windows.Forms.TextBox();
             this.btn_login = new System.Windows.Forms.Button();
+            this.text_password = new System.Windows.Forms.TextBox();
+            this.text_username = new System.Windows.Forms.TextBox();
+            this.titleLogin = new System.Windows.Forms.Label();
             this.bg_login.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -49,32 +49,6 @@
             this.bg_login.TabIndex = 0;
             this.bg_login.Paint += new System.Windows.Forms.PaintEventHandler(this.bg_login_Paint);
             // 
-            // titleLogin
-            // 
-            this.titleLogin.AutoSize = true;
-            this.titleLogin.Font = new System.Drawing.Font("Arial", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.titleLogin.Location = new System.Drawing.Point(145, 53);
-            this.titleLogin.Name = "titleLogin";
-            this.titleLogin.Size = new System.Drawing.Size(113, 35);
-            this.titleLogin.TabIndex = 0;
-            this.titleLogin.Text = "Sign In";
-            // 
-            // text_username
-            // 
-            this.text_username.Location = new System.Drawing.Point(33, 122);
-            this.text_username.Multiline = true;
-            this.text_username.Name = "text_username";
-            this.text_username.Size = new System.Drawing.Size(325, 50);
-            this.text_username.TabIndex = 1;
-            // 
-            // text_password
-            // 
-            this.text_password.Location = new System.Drawing.Point(33, 213);
-            this.text_password.Multiline = true;
-            this.text_password.Name = "text_password";
-            this.text_password.Size = new System.Drawing.Size(325, 50);
-            this.text_password.TabIndex = 2;
-            // 
             // btn_login
             // 
             this.btn_login.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -86,11 +60,37 @@
             this.btn_login.Text = "Login";
             this.btn_login.UseVisualStyleBackColor = true;
             // 
+            // text_password
+            // 
+            this.text_password.Location = new System.Drawing.Point(33, 213);
+            this.text_password.Multiline = true;
+            this.text_password.Name = "text_password";
+            this.text_password.Size = new System.Drawing.Size(325, 50);
+            this.text_password.TabIndex = 2;
+            // 
+            // text_username
+            // 
+            this.text_username.Location = new System.Drawing.Point(33, 122);
+            this.text_username.Multiline = true;
+            this.text_username.Name = "text_username";
+            this.text_username.Size = new System.Drawing.Size(325, 50);
+            this.text_username.TabIndex = 1;
+            // 
+            // titleLogin
+            // 
+            this.titleLogin.AutoSize = true;
+            this.titleLogin.Font = new System.Drawing.Font("Arial", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.titleLogin.Location = new System.Drawing.Point(145, 53);
+            this.titleLogin.Name = "titleLogin";
+            this.titleLogin.Size = new System.Drawing.Size(113, 35);
+            this.titleLogin.TabIndex = 0;
+            this.titleLogin.Text = "Sign In";
+            // 
             // Login
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1378, 833);
+            this.ClientSize = new System.Drawing.Size(1378, 844);
             this.Controls.Add(this.bg_login);
             this.ForeColor = System.Drawing.Color.DodgerBlue;
             this.Name = "Login";

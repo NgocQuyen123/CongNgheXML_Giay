@@ -3,24 +3,24 @@
   "WorkspaceRootPath": "E:\\DAIHOC\\KY_125\\xml\\cuoiky\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{7CE2B0B6-3209-4FD2-9C6E-BEAFB5018B91}|QuanLyShopGiay\\QuanLyShopGiay.csproj|e:\\daihoc\\ky_125\\xml\\cuoiky\\quanlyshopgiay\\views\\login.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
-      "RelativeMoniker": "D:0:0:{7CE2B0B6-3209-4FD2-9C6E-BEAFB5018B91}|QuanLyShopGiay\\QuanLyShopGiay.csproj|solutionrelative:quanlyshopgiay\\views\\login.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+      "AbsoluteMoniker": "D:0:0:{7CE2B0B6-3209-4FD2-9C6E-BEAFB5018B91}|QuanLyShopGiay\\QuanLyShopGiay.csproj|e:\\daihoc\\ky_125\\xml\\cuoiky\\quanlyshopgiay\\views\\main.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{7CE2B0B6-3209-4FD2-9C6E-BEAFB5018B91}|QuanLyShopGiay\\QuanLyShopGiay.csproj|solutionrelative:quanlyshopgiay\\views\\main.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{7CE2B0B6-3209-4FD2-9C6E-BEAFB5018B91}|QuanLyShopGiay\\QuanLyShopGiay.csproj|e:\\daihoc\\ky_125\\xml\\cuoiky\\quanlyshopgiay\\img\\background_img.jpg||{177559E0-D141-11D0-92DF-00A0C9138C45}",
-      "RelativeMoniker": "D:0:0:{7CE2B0B6-3209-4FD2-9C6E-BEAFB5018B91}|QuanLyShopGiay\\QuanLyShopGiay.csproj|solutionrelative:quanlyshopgiay\\img\\background_img.jpg||{177559E0-D141-11D0-92DF-00A0C9138C45}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{7CE2B0B6-3209-4FD2-9C6E-BEAFB5018B91}|QuanLyShopGiay\\QuanLyShopGiay.csproj|e:\\daihoc\\ky_125\\xml\\cuoiky\\quanlyshopgiay\\views\\login.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{7CE2B0B6-3209-4FD2-9C6E-BEAFB5018B91}|QuanLyShopGiay\\QuanLyShopGiay.csproj|solutionrelative:quanlyshopgiay\\views\\login.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{7CE2B0B6-3209-4FD2-9C6E-BEAFB5018B91}|QuanLyShopGiay\\QuanLyShopGiay.csproj|e:\\daihoc\\ky_125\\xml\\cuoiky\\quanlyshopgiay\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
-      "RelativeMoniker": "D:0:0:{7CE2B0B6-3209-4FD2-9C6E-BEAFB5018B91}|QuanLyShopGiay\\QuanLyShopGiay.csproj|solutionrelative:quanlyshopgiay\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+      "AbsoluteMoniker": "D:0:0:{7CE2B0B6-3209-4FD2-9C6E-BEAFB5018B91}|QuanLyShopGiay\\QuanLyShopGiay.csproj|e:\\daihoc\\ky_125\\xml\\cuoiky\\quanlyshopgiay\\views\\main.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{7CE2B0B6-3209-4FD2-9C6E-BEAFB5018B91}|QuanLyShopGiay\\QuanLyShopGiay.csproj|solutionrelative:quanlyshopgiay\\views\\main.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{7CE2B0B6-3209-4FD2-9C6E-BEAFB5018B91}|QuanLyShopGiay\\QuanLyShopGiay.csproj|e:\\daihoc\\ky_125\\xml\\cuoiky\\quanlyshopgiay\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{7CE2B0B6-3209-4FD2-9C6E-BEAFB5018B91}|QuanLyShopGiay\\QuanLyShopGiay.csproj|solutionrelative:quanlyshopgiay\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7CE2B0B6-3209-4FD2-9C6E-BEAFB5018B91}|QuanLyShopGiay\\QuanLyShopGiay.csproj|e:\\daihoc\\ky_125\\xml\\cuoiky\\quanlyshopgiay\\views\\login.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{7CE2B0B6-3209-4FD2-9C6E-BEAFB5018B91}|QuanLyShopGiay\\QuanLyShopGiay.csproj|solutionrelative:quanlyshopgiay\\views\\login.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7CE2B0B6-3209-4FD2-9C6E-BEAFB5018B91}|QuanLyShopGiay\\QuanLyShopGiay.csproj|e:\\daihoc\\ky_125\\xml\\cuoiky\\quanlyshopgiay\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{7CE2B0B6-3209-4FD2-9C6E-BEAFB5018B91}|QuanLyShopGiay\\QuanLyShopGiay.csproj|solutionrelative:quanlyshopgiay\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
     }
   ],
   "DocumentGroupContainers": [
@@ -30,7 +30,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 9,
+          "SelectedChildIndex": 7,
           "Children": [
             {
               "$type": "Bookmark",
@@ -59,63 +59,63 @@
             {
               "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "background_img.jpg - Bitmap [960x538, 24 bit, JPG]",
-              "DocumentMoniker": "E:\\DAIHOC\\KY_125\\xml\\cuoiky\\QuanLyShopGiay\\img\\background_img.jpg",
-              "RelativeDocumentMoniker": "QuanLyShopGiay\\img\\background_img.jpg",
-              "ToolTip": "E:\\DAIHOC\\KY_125\\xml\\cuoiky\\QuanLyShopGiay\\img\\background_img.jpg - Bitmap [960x538, 24 bit, JPG]",
-              "RelativeToolTip": "QuanLyShopGiay\\img\\background_img.jpg - Bitmap [960x538, 24 bit, JPG]",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001533|",
-              "WhenOpened": "2025-11-23T04:00:11.257Z",
-              "EditorCaption": " - Bitmap [960x538, 24 bit, JPG]"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "Form1.cs",
-              "DocumentMoniker": "E:\\DAIHOC\\KY_125\\xml\\cuoiky\\QuanLyShopGiay\\Form1.cs",
-              "RelativeDocumentMoniker": "QuanLyShopGiay\\Form1.cs",
-              "ToolTip": "E:\\DAIHOC\\KY_125\\xml\\cuoiky\\QuanLyShopGiay\\Form1.cs",
-              "RelativeToolTip": "QuanLyShopGiay\\Form1.cs",
-              "ViewState": "AgIAAAgAAAAAAAAAAAAAwCAAAAAAAAAAAAAAAA==",
+              "Title": "Main.cs",
+              "DocumentMoniker": "E:\\DAIHOC\\KY_125\\xml\\cuoiky\\QuanLyShopGiay\\views\\Main.cs",
+              "RelativeDocumentMoniker": "QuanLyShopGiay\\views\\Main.cs",
+              "ToolTip": "E:\\DAIHOC\\KY_125\\xml\\cuoiky\\QuanLyShopGiay\\views\\Main.cs",
+              "RelativeToolTip": "QuanLyShopGiay\\views\\Main.cs",
+              "ViewState": "AgIAAA0AAAAAAAAAAAAvwCQAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-23T02:52:58.435Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "Login.cs",
-              "DocumentMoniker": "E:\\DAIHOC\\KY_125\\xml\\cuoiky\\QuanLyShopGiay\\views\\Login.cs",
-              "RelativeDocumentMoniker": "QuanLyShopGiay\\views\\Login.cs",
-              "ToolTip": "E:\\DAIHOC\\KY_125\\xml\\cuoiky\\QuanLyShopGiay\\views\\Login.cs*",
-              "RelativeToolTip": "QuanLyShopGiay\\views\\Login.cs*",
-              "ViewState": "AgIAAA4AAAAAAAAAAAAYwBgAAAA5AAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-23T02:43:25.864Z",
+              "WhenOpened": "2025-11-23T06:30:52.416Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "Login.cs [Design]",
-              "DocumentMoniker": "E:\\DAIHOC\\KY_125\\xml\\cuoiky\\QuanLyShopGiay\\views\\Login.cs",
-              "RelativeDocumentMoniker": "QuanLyShopGiay\\views\\Login.cs",
-              "ToolTip": "E:\\DAIHOC\\KY_125\\xml\\cuoiky\\QuanLyShopGiay\\views\\Login.cs [Design]*",
-              "RelativeToolTip": "QuanLyShopGiay\\views\\Login.cs [Design]*",
+              "Title": "Main.cs [Design]",
+              "DocumentMoniker": "E:\\DAIHOC\\KY_125\\xml\\cuoiky\\QuanLyShopGiay\\views\\Main.cs",
+              "RelativeDocumentMoniker": "QuanLyShopGiay\\views\\Main.cs",
+              "ToolTip": "E:\\DAIHOC\\KY_125\\xml\\cuoiky\\QuanLyShopGiay\\views\\Main.cs [Design]",
+              "RelativeToolTip": "QuanLyShopGiay\\views\\Main.cs [Design]",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-23T02:33:23.785Z",
+              "WhenOpened": "2025-11-23T06:30:35.56Z",
               "EditorCaption": " [Design]"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 2,
+              "Title": "Form1.cs",
+              "DocumentMoniker": "E:\\DAIHOC\\KY_125\\xml\\cuoiky\\QuanLyShopGiay\\Form1.cs",
+              "RelativeDocumentMoniker": "QuanLyShopGiay\\Form1.cs",
+              "ToolTip": "E:\\DAIHOC\\KY_125\\xml\\cuoiky\\QuanLyShopGiay\\Form1.cs",
+              "RelativeToolTip": "QuanLyShopGiay\\Form1.cs",
+              "ViewState": "AgIAABEAAAAAAAAAAAAkwCIAAAAyAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-23T06:27:42.455Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
               "Title": "Form1.cs [Design]",
               "DocumentMoniker": "E:\\DAIHOC\\KY_125\\xml\\cuoiky\\QuanLyShopGiay\\Form1.cs",
               "RelativeDocumentMoniker": "QuanLyShopGiay\\Form1.cs",
               "ToolTip": "E:\\DAIHOC\\KY_125\\xml\\cuoiky\\QuanLyShopGiay\\Form1.cs [Design]",
               "RelativeToolTip": "QuanLyShopGiay\\Form1.cs [Design]",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-28T11:47:52.901Z",
+              "WhenOpened": "2025-11-23T06:27:20.742Z",
+              "EditorCaption": " [Design]"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "Login.cs [Design]",
+              "DocumentMoniker": "E:\\DAIHOC\\KY_125\\xml\\cuoiky\\QuanLyShopGiay\\views\\Login.cs",
+              "RelativeDocumentMoniker": "QuanLyShopGiay\\views\\Login.cs",
+              "ToolTip": "E:\\DAIHOC\\KY_125\\xml\\cuoiky\\QuanLyShopGiay\\views\\Login.cs [Design]",
+              "RelativeToolTip": "QuanLyShopGiay\\views\\Login.cs [Design]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-23T06:27:18.312Z",
               "EditorCaption": " [Design]"
             }
           ]
