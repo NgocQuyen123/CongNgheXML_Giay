@@ -1,0 +1,12 @@
+E:\DAIHOC\KY_125\xml\cuoiky\QuanLyShopGiay\bin\Debug\QuanLyShopGiay.exe.config
+E:\DAIHOC\KY_125\xml\cuoiky\QuanLyShopGiay\bin\Debug\QuanLyShopGiay.exe
+E:\DAIHOC\KY_125\xml\cuoiky\QuanLyShopGiay\bin\Debug\QuanLyShopGiay.pdb
+E:\DAIHOC\KY_125\xml\cuoiky\QuanLyShopGiay\obj\Debug\QuanLyShopGiay.csproj.AssemblyReference.cache
+E:\DAIHOC\KY_125\xml\cuoiky\QuanLyShopGiay\obj\Debug\QuanLyShopGiay.Properties.Resources.resources
+E:\DAIHOC\KY_125\xml\cuoiky\QuanLyShopGiay\obj\Debug\QuanLyShopGiay.views.Login.resources
+E:\DAIHOC\KY_125\xml\cuoiky\QuanLyShopGiay\obj\Debug\QuanLyShopGiay.csproj.GenerateResource.cache
+E:\DAIHOC\KY_125\xml\cuoiky\QuanLyShopGiay\obj\Debug\QuanLyShopGiay.csproj.CoreCompileInputs.cache
+E:\DAIHOC\KY_125\xml\cuoiky\QuanLyShopGiay\obj\Debug\QuanLyShopGiay.exe
+E:\DAIHOC\KY_125\xml\cuoiky\QuanLyShopGiay\obj\Debug\QuanLyShopGiay.pdb
+E:\DAIHOC\KY_125\xml\cuoiky\QuanLyShopGiay\obj\Debug\QuanLyShopGiay.Form1.resources
+E:\DAIHOC\KY_125\xml\cuoiky\QuanLyShopGiay\bin\Debug\img\background_img.jpg
