@@ -1,3 +1,16 @@
-.vs/
+# Thư mục build
 bin/
 obj/
+
+# Visual Studio
+.vs/
+
+# User-specific files
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Cache / log
+*.cache
+*.log
