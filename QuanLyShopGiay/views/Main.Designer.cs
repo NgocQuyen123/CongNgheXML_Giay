@@ -44,6 +44,7 @@
             this.tabTimKiem = new System.Windows.Forms.TabPage();
             this.tabQlTimKiem = new System.Windows.Forms.TabControl();
             this.tabTimKiemGiay = new System.Windows.Forms.TabPage();
+            this.dgvGiay = new System.Windows.Forms.DataGridView();
             this.btnTimKiemGiay = new System.Windows.Forms.Button();
             this.txtTimKiemGiay = new System.Windows.Forms.TextBox();
             this.label8 = new System.Windows.Forms.Label();
@@ -74,7 +75,6 @@
             this.label1 = new System.Windows.Forms.Label();
             this.tabGioiThieu = new System.Windows.Forms.TabPage();
             this.label2 = new System.Windows.Forms.Label();
-            this.dgvGiay = new System.Windows.Forms.DataGridView();
             this.tabMenu.SuspendLayout();
             this.tabHeThong.SuspendLayout();
             this.tabQlHeThong.SuspendLayout();
@@ -85,13 +85,13 @@
             this.tabTimKiem.SuspendLayout();
             this.tabQlTimKiem.SuspendLayout();
             this.tabTimKiemGiay.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvGiay)).BeginInit();
             this.tabTimKiemHoaDon.SuspendLayout();
             this.tabTimKiemChiTietHoaDon.SuspendLayout();
             this.tabTimKiemNhanVien.SuspendLayout();
             this.tabTimKiemTaiKhoan.SuspendLayout();
             this.tabLienHe.SuspendLayout();
             this.tabGioiThieu.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvGiay)).BeginInit();
             this.SuspendLayout();
             // 
             // tabMenu
@@ -257,6 +257,16 @@
             this.tabTimKiemGiay.Text = "Giày";
             this.tabTimKiemGiay.UseVisualStyleBackColor = true;
             // 
+            // dgvGiay
+            // 
+            this.dgvGiay.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvGiay.Location = new System.Drawing.Point(42, 288);
+            this.dgvGiay.Name = "dgvGiay";
+            this.dgvGiay.RowHeadersWidth = 62;
+            this.dgvGiay.RowTemplate.Height = 28;
+            this.dgvGiay.Size = new System.Drawing.Size(1265, 212);
+            this.dgvGiay.TabIndex = 4;
+            // 
             // btnTimKiemGiay
             // 
             this.btnTimKiemGiay.Location = new System.Drawing.Point(938, 179);
@@ -371,6 +381,7 @@
             this.btnTimKiemChiTietHoaDon.TabIndex = 7;
             this.btnTimKiemChiTietHoaDon.Text = "Tìm kiếm";
             this.btnTimKiemChiTietHoaDon.UseVisualStyleBackColor = true;
+            this.btnTimKiemChiTietHoaDon.Click += new System.EventHandler(this.btnTimKiemChiTietHoaDon_Click);
             // 
             // txtTimKiemChiTietHoaDon
             // 
@@ -476,6 +487,7 @@
             this.btnTimKiemTaiKhoan.TabIndex = 7;
             this.btnTimKiemTaiKhoan.Text = "Tìm kiếm";
             this.btnTimKiemTaiKhoan.UseVisualStyleBackColor = true;
+            this.btnTimKiemTaiKhoan.Click += new System.EventHandler(this.btnTimKiemTaiKhoan_Click);
             // 
             // txtTimKiemTaiKhoan
             // 
@@ -574,16 +586,6 @@
             this.label2.TabIndex = 1;
             this.label2.Text = "trang giới thiệu";
             // 
-            // dgvGiay
-            // 
-            this.dgvGiay.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvGiay.Location = new System.Drawing.Point(42, 288);
-            this.dgvGiay.Name = "dgvGiay";
-            this.dgvGiay.RowHeadersWidth = 62;
-            this.dgvGiay.RowTemplate.Height = 28;
-            this.dgvGiay.Size = new System.Drawing.Size(1265, 212);
-            this.dgvGiay.TabIndex = 4;
-            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
@@ -608,6 +610,7 @@
             this.tabQlTimKiem.ResumeLayout(false);
             this.tabTimKiemGiay.ResumeLayout(false);
             this.tabTimKiemGiay.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvGiay)).EndInit();
             this.tabTimKiemHoaDon.ResumeLayout(false);
             this.tabTimKiemHoaDon.PerformLayout();
             this.tabTimKiemChiTietHoaDon.ResumeLayout(false);
@@ -620,7 +623,6 @@
             this.tabLienHe.PerformLayout();
             this.tabGioiThieu.ResumeLayout(false);
             this.tabGioiThieu.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvGiay)).EndInit();
             this.ResumeLayout(false);
 
         }

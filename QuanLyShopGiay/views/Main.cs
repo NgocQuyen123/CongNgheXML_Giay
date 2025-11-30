@@ -86,5 +86,15 @@ namespace QuanLyShopGiay.views
             }
 
         }
+
+        private void btnTimKiemChiTietHoaDon_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnTimKiemTaiKhoan_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
