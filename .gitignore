@@ -1,0 +1,30 @@
+# Thư mục build
+bin/
+obj/
+
+# Visual Studio
+.vs/
+
+# User-specific files
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Cache / log
+*.cache
+*.log
+
+*.dll
+*.exe
+*.pdb
+*.config
+
+*.bin
+*.dat
+*.pdf
+*.jpg
+*.png
+.idea/  
+.vscode/ 
+*.iml
