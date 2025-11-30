@@ -74,6 +74,7 @@
             this.label1 = new System.Windows.Forms.Label();
             this.tabGioiThieu = new System.Windows.Forms.TabPage();
             this.label2 = new System.Windows.Forms.Label();
+            this.dgvGiay = new System.Windows.Forms.DataGridView();
             this.tabMenu.SuspendLayout();
             this.tabHeThong.SuspendLayout();
             this.tabQlHeThong.SuspendLayout();
@@ -90,6 +91,7 @@
             this.tabTimKiemTaiKhoan.SuspendLayout();
             this.tabLienHe.SuspendLayout();
             this.tabGioiThieu.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvGiay)).BeginInit();
             this.SuspendLayout();
             // 
             // tabMenu
@@ -242,6 +244,7 @@
             // 
             // tabTimKiemGiay
             // 
+            this.tabTimKiemGiay.Controls.Add(this.dgvGiay);
             this.tabTimKiemGiay.Controls.Add(this.btnTimKiemGiay);
             this.tabTimKiemGiay.Controls.Add(this.txtTimKiemGiay);
             this.tabTimKiemGiay.Controls.Add(this.label8);
@@ -262,6 +265,7 @@
             this.btnTimKiemGiay.TabIndex = 3;
             this.btnTimKiemGiay.Text = "Tìm kiếm";
             this.btnTimKiemGiay.UseVisualStyleBackColor = true;
+            this.btnTimKiemGiay.Click += new System.EventHandler(this.btnTimKiemGiay_Click);
             // 
             // txtTimKiemGiay
             // 
@@ -570,6 +574,16 @@
             this.label2.TabIndex = 1;
             this.label2.Text = "trang giới thiệu";
             // 
+            // dgvGiay
+            // 
+            this.dgvGiay.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvGiay.Location = new System.Drawing.Point(42, 288);
+            this.dgvGiay.Name = "dgvGiay";
+            this.dgvGiay.RowHeadersWidth = 62;
+            this.dgvGiay.RowTemplate.Height = 28;
+            this.dgvGiay.Size = new System.Drawing.Size(1265, 212);
+            this.dgvGiay.TabIndex = 4;
+            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
@@ -606,6 +620,7 @@
             this.tabLienHe.PerformLayout();
             this.tabGioiThieu.ResumeLayout(false);
             this.tabGioiThieu.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvGiay)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -656,5 +671,6 @@
         private System.Windows.Forms.TextBox txtTimKiemTaiKhoan;
         private System.Windows.Forms.Label label15;
         private System.Windows.Forms.Label label16;
+        private System.Windows.Forms.DataGridView dgvGiay;
     }
 }

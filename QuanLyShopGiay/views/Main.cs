@@ -1,4 +1,5 @@
-﻿using System;
+﻿using QuanLyShopGiay.context;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -49,6 +50,40 @@ namespace QuanLyShopGiay.views
 
         private void Main_Load(object sender, EventArgs e)
         {
+
+        }
+
+        private void btnTimKiemGiay_Click(object sender, EventArgs e)
+        {
+            string keyword = txtTimKiemGiay.Text.Trim();
+
+            using (var db = new QLBanGiayContext())
+            {
+                var ketQua = db.Giays
+                               .Where(g => g.TenGiay.Contains(keyword))
+                               .Select(g => new
+                               {
+                                   g.MaGiay,
+                                   g.TenGiay,
+                                   g.ThuongHieu,
+                                   g.KichCo,
+                                   g.SoLuong,
+                                   g.Gia
+                               })
+                               .ToList();
+
+                dgvGiay.DataSource = ketQua;
+
+                dgvGiay.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+
+                // 🔥 Đổi tên tiêu đề cột sang tiếng Việt
+                dgvGiay.Columns["MaGiay"].HeaderText = "Mã Giày";
+                dgvGiay.Columns["TenGiay"].HeaderText = "Tên Giày";
+                dgvGiay.Columns["ThuongHieu"].HeaderText = "Thương Hiệu";
+                dgvGiay.Columns["KichCo"].HeaderText = "Kích Cỡ";
+                dgvGiay.Columns["SoLuong"].HeaderText = "Số Lượng";
+                dgvGiay.Columns["Gia"].HeaderText = "Giá Bán";
+            }
 
         }
     }

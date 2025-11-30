@@ -5,7 +5,11 @@ namespace QuanLyShopGiay.context
 {
     public class QLBanGiayContext : DbContext
     {
-        public QLBanGiayContext() : base("name=QLBanGiayConnection") { }
+        public QLBanGiayContext() : base("name=QLBanGiayConnection")
+        {
+            // Tắt Lazy Loading để tránh lỗi DataGridView khi DbContext bị dispose
+            this.Configuration.LazyLoadingEnabled = false;
+        }
 
         public DbSet<NhanVien> NhanViens { get; set; }
         public DbSet<KhachHang> KhachHangs { get; set; }
@@ -16,7 +20,6 @@ namespace QuanLyShopGiay.context
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-            // Nếu muốn Fluent API mapping nâng cao thì viết ở đây
             base.OnModelCreating(modelBuilder);
         }
     }
