@@ -71,12 +71,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ChiTietHoaDon.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="ChiTietHoaDon.Designer.cs">
-      <DependentUpon>ChiTietHoaDon.cs</DependentUpon>
-    </Compile>
     <Compile Include="context\QLBanGiayContext.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
