@@ -434,6 +434,164 @@ namespace QuanLyShopGiay.views
                 dgvNhanVien.Columns["SoDT"].HeaderText = "Số Điện Thoại";
             }
         }
+
+        private void btnThemNV_Click(object sender, EventArgs e)
+        {
+            using (var db = new QLBanGiayContext())
+            {
+                NhanVien nv = new NhanVien
+                {
+                    MaNV = int.TryParse(txtMaNV.Text.Trim(), out int mnv) ? mnv : 0,
+                    HoTen = txtTenNV.Text.Trim(),
+                    DiaChi = txtDiaChiNV.Text.Trim(),
+                    SoDT = txtSDTNV.Text.Trim()
+                };
+
+                db.NhanViens.Add(nv);
+                db.SaveChanges();
+            }
+
+            LoadDanhSachNhanVien();
+            ClearTextBoxes(tabQlNhanVien);
+        }
+
+        private void btnSuaNV_Click(object sender, EventArgs e)
+        {
+            using (var db = new QLBanGiayContext())
+            {
+                int maNV = int.TryParse(txtMaNV.Text.Trim(), out int mnv) ? mnv : 0;
+                var nv = db.NhanViens.FirstOrDefault(n => n.MaNV == maNV);
+
+                if (nv != null)
+                {
+                    nv.HoTen = txtTenNV.Text.Trim();
+                    nv.DiaChi = txtDiaChiNV.Text.Trim();
+                    nv.SoDT = txtSDTNV.Text.Trim();
+
+                    db.SaveChanges();
+                }
+                else
+                {
+                    MessageBox.Show("Mã Nhân Viên không tồn tại!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
+            }
+
+            LoadDanhSachNhanVien();
+            ClearTextBoxes(tabQlNhanVien);
+        }
+
+        private void btnXoaNV_Click(object sender, EventArgs e)
+        {
+            using (var db = new QLBanGiayContext())
+            {
+                int maNV = int.TryParse(txtMaNV.Text.Trim(), out int mnv) ? mnv : 0;
+                var nv = db.NhanViens.FirstOrDefault(n => n.MaNV == maNV);
+
+                if (nv != null)
+                {
+                    var confirm = MessageBox.Show("Bạn có chắc muốn xóa nhân viên này?", "Xác nhận", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                    if (confirm == DialogResult.Yes)
+                    {
+                        db.NhanViens.Remove(nv);
+                        db.SaveChanges();
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Mã Nhân Viên không tồn tại!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
+            }
+
+            LoadDanhSachNhanVien();
+            ClearTextBoxes(tabQlNhanVien);
+        }
+
+        private void btnThoatNV_Click(object sender, EventArgs e)
+        {
+            tabQlHeThong.SelectedTab = tabQlNhanVien;
+            ClearTextBoxes(tabQlNhanVien);
+        }
+
+        private void btnThemGiay_Click(object sender, EventArgs e)
+        {
+            using (var db = new QLBanGiayContext())
+            {
+                Giay giay = new Giay
+                {
+                    MaGiay = int.TryParse(txtMaGiay.Text.Trim(), out int mg) ? mg : 0,
+                    TenGiay = txtTenGiay.Text.Trim(),
+                    ThuongHieu = txtThuongHieu.Text.Trim(),
+                    KichCo = int.TryParse(txtKichCo.Text.Trim(), out int kc) ? kc : 0,
+                    SoLuong = int.TryParse(txtSoLuong.Text.Trim(), out int sl) ? sl : 0,
+                    Gia = decimal.TryParse(txtGia.Text.Trim(), out decimal gia) ? gia : 0
+                };
+
+                db.Giays.Add(giay);
+                db.SaveChanges();
+            }
+
+            LoadDanhSachGiay();
+            ClearTextBoxes(tabQlGiay);
+        }
+
+        private void btnSuaGiay_Click(object sender, EventArgs e)
+        {
+            using (var db = new QLBanGiayContext())
+            {
+                int maGiay = int.TryParse(txtMaGiay.Text.Trim(), out int mg) ? mg : 0;
+                var giay = db.Giays.FirstOrDefault(g => g.MaGiay == maGiay);
+
+                if (giay != null)
+                {
+                    giay.TenGiay = txtTenGiay.Text.Trim();
+                    giay.ThuongHieu = txtThuongHieu.Text.Trim();
+                    giay.KichCo = int.TryParse(txtKichCo.Text.Trim(), out int kc) ? kc : giay.KichCo;
+                    giay.SoLuong = int.TryParse(txtSoLuong.Text.Trim(), out int sl) ? sl : giay.SoLuong;
+                    giay.Gia = decimal.TryParse(txtGia.Text.Trim(), out decimal gia) ? gia : giay.Gia;
+
+                    db.SaveChanges();
+                }
+                else
+                {
+                    MessageBox.Show("Mã Giày không tồn tại!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
+            }
+
+            LoadDanhSachGiay();
+            ClearTextBoxes(tabQlGiay);
+        }
+
+        private void btnXoaGiay_Click(object sender, EventArgs e)
+        {
+            using (var db = new QLBanGiayContext())
+            {
+                int maGiay = int.TryParse(txtMaGiay.Text.Trim(), out int mg) ? mg : 0;
+                var giay = db.Giays.FirstOrDefault(g => g.MaGiay == maGiay);
+
+                if (giay != null)
+                {
+                    var confirm = MessageBox.Show("Bạn có chắc muốn xóa giày này?", "Xác nhận", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                    if (confirm == DialogResult.Yes)
+                    {
+                        db.Giays.Remove(giay);
+                        db.SaveChanges();
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Mã Giày không tồn tại!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
+            }
+
+            LoadDanhSachGiay();
+            ClearTextBoxes(tabQlGiay);
+        }
+
+        private void btnThoatGiay_Click(object sender, EventArgs e)
+        {
+            tabQlHeThong.SelectedTab = tabQlNhanVien;
+            ClearTextBoxes(tabQlGiay);
+        }
     }
 }
 
