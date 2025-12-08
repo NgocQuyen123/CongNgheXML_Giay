@@ -1,30 +1,36 @@
-# Thư mục build
+# Build directories
 bin/
 obj/
 
 # Visual Studio
 .vs/
 
-# User-specific files
+# User-specific files (các file cá nhân không cần thiết)
 *.suo
 *.user
 *.userosscache
 *.sln.docstates
 
-# Cache / log
+# Cache / logs
 *.cache
 *.log
 
+# IDE specific files (Visual Studio Code, IntelliJ, etc.)
+.idea/
+.vscode/
+*.iml
+
+# Auto-generated files (không cần thiết cho git tracking)
+*.pdb
 *.dll
 *.exe
-*.pdb
-*.config
 
+
+# Ignore build artifacts and files generated at runtime
 *.bin
 *.dat
+
+# Files that are generated at runtime but might be needed for assets or data (optional)
 *.pdf
 *.jpg
 *.png
-.idea/  
-.vscode/ 
-*.iml
