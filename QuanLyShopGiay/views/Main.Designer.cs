@@ -50,14 +50,14 @@
             this.label19 = new System.Windows.Forms.Label();
             this.label20 = new System.Windows.Forms.Label();
             this.label21 = new System.Windows.Forms.Label();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.groupBoxQLHoaDon = new System.Windows.Forms.GroupBox();
             this.btnThoat123 = new System.Windows.Forms.Button();
             this.btnSuaHoaDon123 = new System.Windows.Forms.Button();
             this.btnTaoMoi123 = new System.Windows.Forms.Button();
             this.btnTimKiem123 = new System.Windows.Forms.Button();
             this.label5 = new System.Windows.Forms.Label();
             this.tabQlTaiKhoan = new System.Windows.Forms.TabPage();
-            this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.groupBoxQLTaiKhoan = new System.Windows.Forms.GroupBox();
             this.button5 = new System.Windows.Forms.Button();
             this.button6 = new System.Windows.Forms.Button();
             this.button7 = new System.Windows.Forms.Button();
@@ -85,21 +85,25 @@
             this.label8 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.tabTimKiemHoaDon = new System.Windows.Forms.TabPage();
+            this.dgvTimKiemHoaDon = new System.Windows.Forms.DataGridView();
             this.btnTimKiemHoaDon = new System.Windows.Forms.Button();
             this.txtTimKiemHoaDon = new System.Windows.Forms.TextBox();
             this.label9 = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
             this.tabTimKiemChiTietHoaDon = new System.Windows.Forms.TabPage();
+            this.dgvTimKiemChiTietHoaDon = new System.Windows.Forms.DataGridView();
             this.btnTimKiemChiTietHoaDon = new System.Windows.Forms.Button();
             this.txtTimKiemChiTietHoaDon = new System.Windows.Forms.TextBox();
             this.label11 = new System.Windows.Forms.Label();
             this.label12 = new System.Windows.Forms.Label();
             this.tabTimKiemNhanVien = new System.Windows.Forms.TabPage();
+            this.dgvNhanVien = new System.Windows.Forms.DataGridView();
             this.btnTimKiemNhanVien = new System.Windows.Forms.Button();
             this.txtTimKiemNhanVien = new System.Windows.Forms.TextBox();
             this.label13 = new System.Windows.Forms.Label();
             this.label14 = new System.Windows.Forms.Label();
             this.tabTimKiemTaiKhoan = new System.Windows.Forms.TabPage();
+            this.dgvTimKiemTaiKhoan = new System.Windows.Forms.DataGridView();
             this.btnTimKiemTaiKhoan = new System.Windows.Forms.Button();
             this.txtTimKiemTaiKhoan = new System.Windows.Forms.TextBox();
             this.label15 = new System.Windows.Forms.Label();
@@ -110,10 +114,6 @@
             this.label1 = new System.Windows.Forms.Label();
             this.tabGioiThieu = new System.Windows.Forms.TabPage();
             this.label2 = new System.Windows.Forms.Label();
-            this.dgvTimKiemHoaDon = new System.Windows.Forms.DataGridView();
-            this.dgvTimKiemChiTietHoaDon = new System.Windows.Forms.DataGridView();
-            this.dgvNhanVien = new System.Windows.Forms.DataGridView();
-            this.dgvTimKiemTaiKhoan = new System.Windows.Forms.DataGridView();
             this.tabMenu.SuspendLayout();
             this.tabHeThong.SuspendLayout();
             this.tabQlHeThong.SuspendLayout();
@@ -123,9 +123,9 @@
             this.groupBox3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvHoaDon)).BeginInit();
             this.groupBox1.SuspendLayout();
-            this.groupBox2.SuspendLayout();
+            this.groupBoxQLHoaDon.SuspendLayout();
             this.tabQlTaiKhoan.SuspendLayout();
-            this.groupBox4.SuspendLayout();
+            this.groupBoxQLTaiKhoan.SuspendLayout();
             this.groupBox5.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvTaiKhoan)).BeginInit();
             this.groupBox6.SuspendLayout();
@@ -134,15 +134,15 @@
             this.tabTimKiemGiay.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvGiay)).BeginInit();
             this.tabTimKiemHoaDon.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvTimKiemHoaDon)).BeginInit();
             this.tabTimKiemChiTietHoaDon.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvTimKiemChiTietHoaDon)).BeginInit();
             this.tabTimKiemNhanVien.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvNhanVien)).BeginInit();
             this.tabTimKiemTaiKhoan.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvTimKiemTaiKhoan)).BeginInit();
             this.tabLienHe.SuspendLayout();
             this.tabGioiThieu.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvTimKiemHoaDon)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvTimKiemChiTietHoaDon)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvNhanVien)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvTimKiemTaiKhoan)).BeginInit();
             this.SuspendLayout();
             // 
             // tabMenu
@@ -232,7 +232,7 @@
             this.tabQlHoaDon.Controls.Add(this.groupBox3);
             this.tabQlHoaDon.Controls.Add(this.groupBox1);
             this.tabQlHoaDon.Controls.Add(this.label21);
-            this.tabQlHoaDon.Controls.Add(this.groupBox2);
+            this.tabQlHoaDon.Controls.Add(this.groupBoxQLHoaDon);
             this.tabQlHoaDon.Controls.Add(this.label5);
             this.tabQlHoaDon.ImageIndex = 4;
             this.tabQlHoaDon.Location = new System.Drawing.Point(4, 37);
@@ -363,18 +363,18 @@
             this.label21.Text = "Quản Lý Hóa Đơn";
             this.label21.Click += new System.EventHandler(this.label21_Click);
             // 
-            // groupBox2
+            // groupBoxQLHoaDon
             // 
-            this.groupBox2.Controls.Add(this.btnThoat123);
-            this.groupBox2.Controls.Add(this.btnSuaHoaDon123);
-            this.groupBox2.Controls.Add(this.btnTaoMoi123);
-            this.groupBox2.Controls.Add(this.btnTimKiem123);
-            this.groupBox2.Location = new System.Drawing.Point(197, 314);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(900, 100);
-            this.groupBox2.TabIndex = 6;
-            this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "Chức năng";
+            this.groupBoxQLHoaDon.Controls.Add(this.btnThoat123);
+            this.groupBoxQLHoaDon.Controls.Add(this.btnSuaHoaDon123);
+            this.groupBoxQLHoaDon.Controls.Add(this.btnTaoMoi123);
+            this.groupBoxQLHoaDon.Controls.Add(this.btnTimKiem123);
+            this.groupBoxQLHoaDon.Location = new System.Drawing.Point(197, 314);
+            this.groupBoxQLHoaDon.Name = "groupBoxQLHoaDon";
+            this.groupBoxQLHoaDon.Size = new System.Drawing.Size(900, 100);
+            this.groupBoxQLHoaDon.TabIndex = 6;
+            this.groupBoxQLHoaDon.TabStop = false;
+            this.groupBoxQLHoaDon.Text = "Chức năng";
             // 
             // btnThoat123
             // 
@@ -432,7 +432,7 @@
             // 
             // tabQlTaiKhoan
             // 
-            this.tabQlTaiKhoan.Controls.Add(this.groupBox4);
+            this.tabQlTaiKhoan.Controls.Add(this.groupBoxQLTaiKhoan);
             this.tabQlTaiKhoan.Controls.Add(this.label22);
             this.tabQlTaiKhoan.Controls.Add(this.groupBox5);
             this.tabQlTaiKhoan.Controls.Add(this.groupBox6);
@@ -446,18 +446,18 @@
             this.tabQlTaiKhoan.UseVisualStyleBackColor = true;
             this.tabQlTaiKhoan.Click += new System.EventHandler(this.tabQlTaiKhoan_Click);
             // 
-            // groupBox4
+            // groupBoxQLTaiKhoan
             // 
-            this.groupBox4.Controls.Add(this.button5);
-            this.groupBox4.Controls.Add(this.button6);
-            this.groupBox4.Controls.Add(this.button7);
-            this.groupBox4.Controls.Add(this.button8);
-            this.groupBox4.Location = new System.Drawing.Point(633, 135);
-            this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(458, 247);
-            this.groupBox4.TabIndex = 9;
-            this.groupBox4.TabStop = false;
-            this.groupBox4.Text = "Chức năng";
+            this.groupBoxQLTaiKhoan.Controls.Add(this.button5);
+            this.groupBoxQLTaiKhoan.Controls.Add(this.button6);
+            this.groupBoxQLTaiKhoan.Controls.Add(this.button7);
+            this.groupBoxQLTaiKhoan.Controls.Add(this.button8);
+            this.groupBoxQLTaiKhoan.Location = new System.Drawing.Point(633, 135);
+            this.groupBoxQLTaiKhoan.Name = "groupBoxQLTaiKhoan";
+            this.groupBoxQLTaiKhoan.Size = new System.Drawing.Size(458, 247);
+            this.groupBoxQLTaiKhoan.TabIndex = 9;
+            this.groupBoxQLTaiKhoan.TabStop = false;
+            this.groupBoxQLTaiKhoan.Text = "Chức năng";
             // 
             // button5
             // 
@@ -744,6 +744,16 @@
             this.tabTimKiemHoaDon.Text = "Hóa Đơn";
             this.tabTimKiemHoaDon.UseVisualStyleBackColor = true;
             // 
+            // dgvTimKiemHoaDon
+            // 
+            this.dgvTimKiemHoaDon.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvTimKiemHoaDon.Location = new System.Drawing.Point(50, 326);
+            this.dgvTimKiemHoaDon.Name = "dgvTimKiemHoaDon";
+            this.dgvTimKiemHoaDon.RowHeadersWidth = 62;
+            this.dgvTimKiemHoaDon.RowTemplate.Height = 28;
+            this.dgvTimKiemHoaDon.Size = new System.Drawing.Size(1265, 212);
+            this.dgvTimKiemHoaDon.TabIndex = 8;
+            // 
             // btnTimKiemHoaDon
             // 
             this.btnTimKiemHoaDon.Location = new System.Drawing.Point(982, 235);
@@ -798,6 +808,16 @@
             this.tabTimKiemChiTietHoaDon.TabIndex = 2;
             this.tabTimKiemChiTietHoaDon.Text = "Chi Tiết Hóa Đơn";
             this.tabTimKiemChiTietHoaDon.UseVisualStyleBackColor = true;
+            // 
+            // dgvTimKiemChiTietHoaDon
+            // 
+            this.dgvTimKiemChiTietHoaDon.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvTimKiemChiTietHoaDon.Location = new System.Drawing.Point(33, 310);
+            this.dgvTimKiemChiTietHoaDon.Name = "dgvTimKiemChiTietHoaDon";
+            this.dgvTimKiemChiTietHoaDon.RowHeadersWidth = 62;
+            this.dgvTimKiemChiTietHoaDon.RowTemplate.Height = 28;
+            this.dgvTimKiemChiTietHoaDon.Size = new System.Drawing.Size(1265, 212);
+            this.dgvTimKiemChiTietHoaDon.TabIndex = 9;
             // 
             // btnTimKiemChiTietHoaDon
             // 
@@ -854,6 +874,16 @@
             this.tabTimKiemNhanVien.Text = "Nhân Viên";
             this.tabTimKiemNhanVien.UseVisualStyleBackColor = true;
             // 
+            // dgvNhanVien
+            // 
+            this.dgvNhanVien.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvNhanVien.Location = new System.Drawing.Point(41, 295);
+            this.dgvNhanVien.Name = "dgvNhanVien";
+            this.dgvNhanVien.RowHeadersWidth = 62;
+            this.dgvNhanVien.RowTemplate.Height = 28;
+            this.dgvNhanVien.Size = new System.Drawing.Size(1265, 212);
+            this.dgvNhanVien.TabIndex = 10;
+            // 
             // btnTimKiemNhanVien
             // 
             this.btnTimKiemNhanVien.Location = new System.Drawing.Point(971, 197);
@@ -907,6 +937,16 @@
             this.tabTimKiemTaiKhoan.TabIndex = 4;
             this.tabTimKiemTaiKhoan.Text = "Tài Khoản";
             this.tabTimKiemTaiKhoan.UseVisualStyleBackColor = true;
+            // 
+            // dgvTimKiemTaiKhoan
+            // 
+            this.dgvTimKiemTaiKhoan.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvTimKiemTaiKhoan.Location = new System.Drawing.Point(48, 298);
+            this.dgvTimKiemTaiKhoan.Name = "dgvTimKiemTaiKhoan";
+            this.dgvTimKiemTaiKhoan.RowHeadersWidth = 62;
+            this.dgvTimKiemTaiKhoan.RowTemplate.Height = 28;
+            this.dgvTimKiemTaiKhoan.Size = new System.Drawing.Size(1265, 212);
+            this.dgvTimKiemTaiKhoan.TabIndex = 11;
             // 
             // btnTimKiemTaiKhoan
             // 
@@ -1015,46 +1055,6 @@
             this.label2.TabIndex = 1;
             this.label2.Text = "trang giới thiệu";
             // 
-            // dgvTimKiemHoaDon
-            // 
-            this.dgvTimKiemHoaDon.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvTimKiemHoaDon.Location = new System.Drawing.Point(50, 326);
-            this.dgvTimKiemHoaDon.Name = "dgvTimKiemHoaDon";
-            this.dgvTimKiemHoaDon.RowHeadersWidth = 62;
-            this.dgvTimKiemHoaDon.RowTemplate.Height = 28;
-            this.dgvTimKiemHoaDon.Size = new System.Drawing.Size(1265, 212);
-            this.dgvTimKiemHoaDon.TabIndex = 8;
-            // 
-            // dgvTimKiemChiTietHoaDon
-            // 
-            this.dgvTimKiemChiTietHoaDon.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvTimKiemChiTietHoaDon.Location = new System.Drawing.Point(33, 310);
-            this.dgvTimKiemChiTietHoaDon.Name = "dgvTimKiemChiTietHoaDon";
-            this.dgvTimKiemChiTietHoaDon.RowHeadersWidth = 62;
-            this.dgvTimKiemChiTietHoaDon.RowTemplate.Height = 28;
-            this.dgvTimKiemChiTietHoaDon.Size = new System.Drawing.Size(1265, 212);
-            this.dgvTimKiemChiTietHoaDon.TabIndex = 9;
-            // 
-            // dgvNhanVien
-            // 
-            this.dgvNhanVien.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvNhanVien.Location = new System.Drawing.Point(41, 295);
-            this.dgvNhanVien.Name = "dgvNhanVien";
-            this.dgvNhanVien.RowHeadersWidth = 62;
-            this.dgvNhanVien.RowTemplate.Height = 28;
-            this.dgvNhanVien.Size = new System.Drawing.Size(1265, 212);
-            this.dgvNhanVien.TabIndex = 10;
-            // 
-            // dgvTimKiemTaiKhoan
-            // 
-            this.dgvTimKiemTaiKhoan.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvTimKiemTaiKhoan.Location = new System.Drawing.Point(48, 298);
-            this.dgvTimKiemTaiKhoan.Name = "dgvTimKiemTaiKhoan";
-            this.dgvTimKiemTaiKhoan.RowHeadersWidth = 62;
-            this.dgvTimKiemTaiKhoan.RowTemplate.Height = 28;
-            this.dgvTimKiemTaiKhoan.Size = new System.Drawing.Size(1265, 212);
-            this.dgvTimKiemTaiKhoan.TabIndex = 11;
-            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
@@ -1077,10 +1077,10 @@
             ((System.ComponentModel.ISupportInitialize)(this.dgvHoaDon)).EndInit();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
-            this.groupBox2.ResumeLayout(false);
+            this.groupBoxQLHoaDon.ResumeLayout(false);
             this.tabQlTaiKhoan.ResumeLayout(false);
             this.tabQlTaiKhoan.PerformLayout();
-            this.groupBox4.ResumeLayout(false);
+            this.groupBoxQLTaiKhoan.ResumeLayout(false);
             this.groupBox5.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgvTaiKhoan)).EndInit();
             this.groupBox6.ResumeLayout(false);
@@ -1092,20 +1092,20 @@
             ((System.ComponentModel.ISupportInitialize)(this.dgvGiay)).EndInit();
             this.tabTimKiemHoaDon.ResumeLayout(false);
             this.tabTimKiemHoaDon.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvTimKiemHoaDon)).EndInit();
             this.tabTimKiemChiTietHoaDon.ResumeLayout(false);
             this.tabTimKiemChiTietHoaDon.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvTimKiemChiTietHoaDon)).EndInit();
             this.tabTimKiemNhanVien.ResumeLayout(false);
             this.tabTimKiemNhanVien.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvNhanVien)).EndInit();
             this.tabTimKiemTaiKhoan.ResumeLayout(false);
             this.tabTimKiemTaiKhoan.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvTimKiemTaiKhoan)).EndInit();
             this.tabLienHe.ResumeLayout(false);
             this.tabLienHe.PerformLayout();
             this.tabGioiThieu.ResumeLayout(false);
             this.tabGioiThieu.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvTimKiemHoaDon)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvTimKiemChiTietHoaDon)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvNhanVien)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvTimKiemTaiKhoan)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -1168,12 +1168,12 @@
         private System.Windows.Forms.Label label19;
         private System.Windows.Forms.Label label20;
         private System.Windows.Forms.Label label21;
-        private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.GroupBox groupBoxQLHoaDon;
         private System.Windows.Forms.Button btnThoat123;
         private System.Windows.Forms.Button btnSuaHoaDon123;
         private System.Windows.Forms.Button btnTaoMoi123;
         private System.Windows.Forms.Button btnTimKiem123;
-        private System.Windows.Forms.GroupBox groupBox4;
+        private System.Windows.Forms.GroupBox groupBoxQLTaiKhoan;
         private System.Windows.Forms.Button button5;
         private System.Windows.Forms.Button button6;
         private System.Windows.Forms.Button button7;
