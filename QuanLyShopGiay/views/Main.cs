@@ -53,6 +53,8 @@ namespace QuanLyShopGiay.views
         {
             LoadDanhSachHoaDon();
             LoadTaiKhoan();
+            LoadDanhSachNhanVien();
+            LoadDanhSachGiay();
         }
 
         
@@ -647,6 +649,40 @@ namespace QuanLyShopGiay.views
             dtgGiay.Columns["SoLuong"].HeaderText = "Số Lượng";
             dtgGiay.Columns["Gia"].HeaderText = "Giá Bán";
         }
+
+        private void dtgGiay_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
+
+        private void dtgGiay_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex >= 0)
+            {
+                DataGridViewRow row = dtgGiay.Rows[e.RowIndex];
+
+                txtMaGiay.Text = row.Cells["MaGiay"].Value?.ToString();
+                txtTenGiay.Text = row.Cells["TenGiay"].Value?.ToString();
+                txtThuongHieu.Text = row.Cells["ThuongHieu"].Value?.ToString();
+                txtKichCo.Text = row.Cells["KichCo"].Value?.ToString();
+                txtSoLuong.Text = row.Cells["SoLuong"].Value?.ToString();
+                txtGia.Text = row.Cells["Gia"].Value?.ToString();
+            }
+        }
+        //Khi click 1 dòng của Datagridview QL NhanVien
+        private void dtgNhanVien_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex >= 0)
+            {
+                DataGridViewRow row = dtgNhanVien.Rows[e.RowIndex];
+
+                txtMaNV.Text = row.Cells["MaNV"].Value?.ToString();
+                txtTenNV.Text = row.Cells["HoTen"].Value?.ToString();
+                txtDiaChiNV.Text = row.Cells["DiaChi"].Value?.ToString();
+                txtSDTNV.Text = row.Cells["SoDT"].Value?.ToString();
+            }
+        }
+
     }
 }
 

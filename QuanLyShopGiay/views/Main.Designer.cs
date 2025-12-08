@@ -303,6 +303,7 @@
             this.dtgNhanVien.RowTemplate.Height = 28;
             this.dtgNhanVien.Size = new System.Drawing.Size(1321, 322);
             this.dtgNhanVien.TabIndex = 7;
+            this.dtgNhanVien.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dtgNhanVien_CellClick);
             // 
             // panelQLNhanVien
             // 
@@ -425,6 +426,8 @@
             this.dtgGiay.RowTemplate.Height = 28;
             this.dtgGiay.Size = new System.Drawing.Size(1321, 322);
             this.dtgGiay.TabIndex = 10;
+            this.dtgGiay.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dtgGiay_CellClick);
+            this.dtgGiay.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dtgGiay_CellContentClick);
             // 
             // groupBoxQLGiay
             // 
