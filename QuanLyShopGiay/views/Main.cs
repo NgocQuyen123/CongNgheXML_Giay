@@ -592,6 +592,61 @@ namespace QuanLyShopGiay.views
             tabQlHeThong.SelectedTab = tabQlNhanVien;
             ClearTextBoxes(tabQlGiay);
         }
+
+        private void LoadDanhSachNhanVien()
+        {
+            using (var db = new QLBanGiayContext())
+            {
+                dtgNhanVien.DataSource = db.NhanViens
+                    .Select(n => new
+                    {
+                        n.MaNV,
+                        n.HoTen,
+                        n.DiaChi,
+                        n.SoDT
+                    })
+                    .ToList();
+            }
+
+            dtgNhanVien.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+        }
+
+        private void ClearTextBoxes(TabPage tab)
+        {
+            foreach (Control ctl in tab.Controls)
+            {
+                if (ctl is TextBox tb)
+                    tb.Clear();
+            }
+        }
+
+        private void LoadDanhSachGiay()
+        {
+            using (var db = new QLBanGiayContext())
+            {
+                dtgGiay.DataSource = db.Giays
+                    .Select(g => new
+                    {
+                        g.MaGiay,
+                        g.TenGiay,
+                        g.ThuongHieu,
+                        g.KichCo,
+                        g.SoLuong,
+                        g.Gia
+                    })
+                    .ToList();
+            }
+
+            dtgGiay.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+
+            // Đặt tên cột tiếng Việt
+            dtgGiay.Columns["MaGiay"].HeaderText = "Mã Giày";
+            dtgGiay.Columns["TenGiay"].HeaderText = "Tên Giày";
+            dtgGiay.Columns["ThuongHieu"].HeaderText = "Thương Hiệu";
+            dtgGiay.Columns["KichCo"].HeaderText = "Kích Cỡ";
+            dtgGiay.Columns["SoLuong"].HeaderText = "Số Lượng";
+            dtgGiay.Columns["Gia"].HeaderText = "Giá Bán";
+        }
     }
 }
 
