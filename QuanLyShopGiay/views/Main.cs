@@ -338,8 +338,87 @@ namespace QuanLyShopGiay.views
 
         private void button7_Click(object sender, EventArgs e)
         {
+            // 1. Kiểm tra mã tài khoản
+            if (string.IsNullOrWhiteSpace(txtMaTK345.Text))
+            {
+                MessageBox.Show("Vui lòng nhập mã tài khoản!",
+                                "Thiếu dữ liệu",
+                                MessageBoxButtons.OK,
+                                MessageBoxIcon.Warning);
+                return;
+            }
 
+            if (!int.TryParse(txtMaTK345.Text.Trim(), out int maTK))
+            {
+                MessageBox.Show("Mã tài khoản không hợp lệ!",
+                                "Lỗi",
+                                MessageBoxButtons.OK,
+                                MessageBoxIcon.Error);
+                return;
+            }
+
+            using (var db = new QLBanGiayContext())
+            {
+                // 2. Tìm tài khoản
+                var tk = db.TaiKhoans.FirstOrDefault(t => t.MaTK == maTK);
+
+                if (tk == null)
+                {
+                    MessageBox.Show("Tài khoản không tồn tại!",
+                                    "Thông báo",
+                                    MessageBoxButtons.OK,
+                                    MessageBoxIcon.Warning);
+                    return;
+                }
+
+                // 3. Sửa TỪNG TRƯỜNG (có nhập thì sửa)
+                if (!string.IsNullOrWhiteSpace(txtTK345.Text))
+                    tk.TenTaiKhoan = txtTK345.Text.Trim();
+
+                if (!string.IsNullOrWhiteSpace(txtMK345.Text))
+                    tk.MatKhau = txtMK345.Text.Trim();
+
+                if (!string.IsNullOrWhiteSpace(txtQuyen345.Text))
+                    tk.QuyenHan = txtQuyen345.Text.Trim();
+
+                if (!string.IsNullOrWhiteSpace(txtMaNV345.Text))
+                {
+                    if (!int.TryParse(txtMaNV345.Text.Trim(), out int maNV))
+                    {
+                        MessageBox.Show("Mã nhân viên không hợp lệ!",
+                                        "Lỗi",
+                                        MessageBoxButtons.OK,
+                                        MessageBoxIcon.Error);
+                        return;
+                    }
+
+                    bool tonTaiNV = db.NhanViens.Any(nv => nv.MaNV == maNV);
+                    if (!tonTaiNV)
+                    {
+                        MessageBox.Show("Mã nhân viên không tồn tại!",
+                                        "Lỗi",
+                                        MessageBoxButtons.OK,
+                                        MessageBoxIcon.Error);
+                        return;
+                    }
+
+                    tk.MaNV = maNV;
+                }
+
+                // 4. Lưu
+                db.SaveChanges();
+            }
+
+            // 5. Load lại
+            LoadTaiKhoan();
+            ClearTextBoxes(tabQlTaiKhoan);
+
+            MessageBox.Show("Sửa tài khoản thành công!",
+                            "Thành công",
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Information);
         }
+
 
         private void tabQlTaiKhoan_Click(object sender, EventArgs e)
         {
@@ -360,15 +439,15 @@ namespace QuanLyShopGiay.views
                     })
                     .ToList();
 
-                dgvTaiKhoan.DataSource = data;
+                dgvTaiKhoan345.DataSource = data;
 
-                dgvTaiKhoan.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+                dgvTaiKhoan345.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
 
-                dgvTaiKhoan.Columns["MaTK"].HeaderText = "Mã tài khoản";
-                dgvTaiKhoan.Columns["TenTaiKhoan"].HeaderText = "Tên tài khoản";
-                dgvTaiKhoan.Columns["MatKhau"].HeaderText = "Mật khẩu";
-                dgvTaiKhoan.Columns["QuyenHan"].HeaderText = "Quyền hạn";
-                dgvTaiKhoan.Columns["MaNV"].HeaderText = "Mã nhân viên";
+                dgvTaiKhoan345.Columns["MaTK"].HeaderText = "Mã tài khoản";
+                dgvTaiKhoan345.Columns["TenTaiKhoan"].HeaderText = "Tên tài khoản";
+                dgvTaiKhoan345.Columns["MatKhau"].HeaderText = "Mật khẩu";
+                dgvTaiKhoan345.Columns["QuyenHan"].HeaderText = "Quyền hạn";
+                dgvTaiKhoan345.Columns["MaNV"].HeaderText = "Mã nhân viên";
             }
         }
 
@@ -681,6 +760,308 @@ namespace QuanLyShopGiay.views
                 txtDiaChiNV.Text = row.Cells["DiaChi"].Value?.ToString();
                 txtSDTNV.Text = row.Cells["SoDT"].Value?.ToString();
             }
+        }
+
+        private void btnSuaHoaDon123_Click(object sender, EventArgs e)
+        {
+            // 1. Kiểm tra dữ liệu
+            if (string.IsNullOrEmpty(txtHoaDon123.Text) ||
+                string.IsNullOrEmpty(txtMaKH123.Text) ||
+                string.IsNullOrEmpty(txtMaNV123.Text) ||
+                string.IsNullOrEmpty(txtNgayLap123.Text))
+            {
+                MessageBox.Show("Vui lòng nhập đầy đủ thông tin hóa đơn!",
+                                "Thiếu dữ liệu",
+                                MessageBoxButtons.OK,
+                                MessageBoxIcon.Warning);
+                return;
+            }
+
+            if (!int.TryParse(txtHoaDon123.Text.Trim(), out int maHD))
+            {
+                MessageBox.Show("Mã hóa đơn không hợp lệ!", "Lỗi",
+                                MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            if (!int.TryParse(txtMaKH123.Text.Trim(), out int maKH) ||
+                !int.TryParse(txtMaNV123.Text.Trim(), out int maNV))
+            {
+                MessageBox.Show("Mã KH hoặc Mã NV không hợp lệ!", "Lỗi",
+                                MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            if (!DateTime.TryParse(txtNgayLap123.Text.Trim(), out DateTime ngayLap))
+            {
+                MessageBox.Show("Ngày lập không hợp lệ! (yyyy-MM-dd)",
+                                "Lỗi",
+                                MessageBoxButtons.OK,
+                                MessageBoxIcon.Error);
+                return;
+            }
+
+            using (var db = new QLBanGiayContext())
+            {
+                // 2. Kiểm tra hóa đơn tồn tại
+                var hoaDon = db.HoaDons.FirstOrDefault(h => h.MaHD == maHD);
+
+                if (hoaDon == null)
+                {
+                    MessageBox.Show("Hóa đơn không tồn tại!",
+                                    "Thông báo",
+                                    MessageBoxButtons.OK,
+                                    MessageBoxIcon.Warning);
+                    return;
+                }
+
+                // 3. Kiểm tra KH & NV tồn tại
+                bool khTonTai = db.KhachHangs.Any(k => k.MaKH == maKH);
+                bool nvTonTai = db.NhanViens.Any(n => n.MaNV == maNV);
+
+                if (!khTonTai || !nvTonTai)
+                {
+                    MessageBox.Show("Mã khách hàng hoặc mã nhân viên không tồn tại!",
+                                    "Lỗi",
+                                    MessageBoxButtons.OK,
+                                    MessageBoxIcon.Error);
+                    return;
+                }
+
+                // 4. Cập nhật dữ liệu
+                hoaDon.MaKH = maKH;
+                hoaDon.MaNV = maNV;
+                hoaDon.NgayLap = ngayLap;
+
+                db.SaveChanges();
+            }
+
+            // 5. Load lại danh sách
+            LoadDanhSachHoaDon();
+            ClearTextBoxes(tabQlHoaDon);
+
+            MessageBox.Show("Sửa hóa đơn thành công!",
+                            "Thành công",
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Information);
+        }
+
+        private void btnThoat123_Click(object sender, EventArgs e)
+        {
+            // 1. Kiểm tra mã hóa đơn
+            if (string.IsNullOrEmpty(txtHoaDon123.Text))
+            {
+                MessageBox.Show("Vui lòng nhập mã hóa đơn cần xóa!",
+                                "Thiếu dữ liệu",
+                                MessageBoxButtons.OK,
+                                MessageBoxIcon.Warning);
+                return;
+            }
+
+            if (!int.TryParse(txtHoaDon123.Text.Trim(), out int maHD))
+            {
+                MessageBox.Show("Mã hóa đơn không hợp lệ!",
+                                "Lỗi",
+                                MessageBoxButtons.OK,
+                                MessageBoxIcon.Error);
+                return;
+            }
+
+            using (var db = new QLBanGiayContext())
+            {
+                // 2. Kiểm tra hóa đơn tồn tại
+                var hoaDon = db.HoaDons.FirstOrDefault(h => h.MaHD == maHD);
+
+                if (hoaDon == null)
+                {
+                    MessageBox.Show("Hóa đơn không tồn tại!",
+                                    "Thông báo",
+                                    MessageBoxButtons.OK,
+                                    MessageBoxIcon.Warning);
+                    return;
+                }
+
+                // 3. Xác nhận xóa
+                var confirm = MessageBox.Show(
+                    "Bạn có chắc chắn muốn xóa hóa đơn này?\n(Toàn bộ chi tiết hóa đơn sẽ bị xóa)",
+                    "Xác nhận xóa",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Question
+                );
+
+                if (confirm != DialogResult.Yes)
+                    return;
+
+                // 4. Xóa chi tiết hóa đơn trước
+                var chiTietHD = db.ChiTietHoaDons.Where(ct => ct.MaHD == maHD).ToList();
+                db.ChiTietHoaDons.RemoveRange(chiTietHD);
+
+                // 5. Xóa hóa đơn
+                db.HoaDons.Remove(hoaDon);
+                db.SaveChanges();
+            }
+
+            // 6. Load lại danh sách
+            LoadDanhSachHoaDon();
+            ClearTextBoxes(tabQlHoaDon);
+
+            MessageBox.Show("Xóa hóa đơn thành công!",
+                            "Thành công",
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Information);
+        }
+
+        private void btnThem345_Click(object sender, EventArgs e)
+        {
+            // 1. Kiểm tra dữ liệu nhập
+            if (string.IsNullOrWhiteSpace(txtTK345.Text) ||
+                string.IsNullOrWhiteSpace(txtMK345.Text) ||
+                string.IsNullOrWhiteSpace(txtQuyen345.Text) ||
+                string.IsNullOrWhiteSpace(txtMaNV345.Text))
+            {
+                MessageBox.Show("Vui lòng nhập đầy đủ thông tin tài khoản!",
+                                "Thiếu dữ liệu",
+                                MessageBoxButtons.OK,
+                                MessageBoxIcon.Warning);
+                return;
+            }
+
+            if (!int.TryParse(txtMaNV345.Text.Trim(), out int maNV))
+            {
+                MessageBox.Show("Mã nhân viên không hợp lệ!",
+                                "Lỗi",
+                                MessageBoxButtons.OK,
+                                MessageBoxIcon.Error);
+                return;
+            }
+
+            using (var db = new QLBanGiayContext())
+            {
+                // 2. Kiểm tra trùng tên tài khoản
+                bool tonTaiTK = db.TaiKhoans
+                                  .Any(t => t.TenTaiKhoan == txtTK345.Text.Trim());
+
+                if (tonTaiTK)
+                {
+                    MessageBox.Show("Tên tài khoản đã tồn tại!",
+                                    "Lỗi",
+                                    MessageBoxButtons.OK,
+                                    MessageBoxIcon.Error);
+                    return;
+                }
+
+                // 3. Kiểm tra nhân viên tồn tại
+                bool tonTaiNV = db.NhanViens.Any(nv => nv.MaNV == maNV);
+                if (!tonTaiNV)
+                {
+                    MessageBox.Show("Mã nhân viên không tồn tại!",
+                                    "Lỗi",
+                                    MessageBoxButtons.OK,
+                                    MessageBoxIcon.Error);
+                    return;
+                }
+
+                // 4. Thêm tài khoản mới
+                TaiKhoan tk = new TaiKhoan
+                {
+                    TenTaiKhoan = txtTK345.Text.Trim(),
+                    MatKhau = txtMK345.Text.Trim(),
+                    QuyenHan = txtQuyen345.Text.Trim(),
+                    MaNV = maNV
+                };
+
+                db.TaiKhoans.Add(tk);
+                db.SaveChanges();
+            }
+
+            // 5. Load lại DataGridView
+            LoadTaiKhoan();
+
+            // 6. Xóa trắng textbox
+            ClearTextBoxes(tabQlTaiKhoan);
+
+            MessageBox.Show("Thêm tài khoản thành công!",
+                            "Thành công",
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Information);
+        }
+
+        private void btnXoa345_Click(object sender, EventArgs e)
+        {
+            // 1. Kiểm tra mã tài khoản
+            if (string.IsNullOrWhiteSpace(txtMaTK345.Text))
+            {
+                MessageBox.Show("Vui lòng nhập mã tài khoản cần xóa!",
+                                "Thiếu dữ liệu",
+                                MessageBoxButtons.OK,
+                                MessageBoxIcon.Warning);
+                return;
+            }
+
+            if (!int.TryParse(txtMaTK345.Text.Trim(), out int maTK))
+            {
+                MessageBox.Show("Mã tài khoản không hợp lệ!",
+                                "Lỗi",
+                                MessageBoxButtons.OK,
+                                MessageBoxIcon.Error);
+                return;
+            }
+
+            using (var db = new QLBanGiayContext())
+            {
+                // 2. Kiểm tra tài khoản tồn tại
+                var taiKhoan = db.TaiKhoans.FirstOrDefault(t => t.MaTK == maTK);
+
+                if (taiKhoan == null)
+                {
+                    MessageBox.Show("Tài khoản không tồn tại!",
+                                    "Thông báo",
+                                    MessageBoxButtons.OK,
+                                    MessageBoxIcon.Warning);
+                    return;
+                }
+
+                // 3. Xác nhận xóa
+                var confirm = MessageBox.Show(
+                    $"Bạn có chắc chắn muốn xóa tài khoản [{taiKhoan.TenTaiKhoan}]?",
+                    "Xác nhận xóa",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Question
+                );
+
+                if (confirm != DialogResult.Yes)
+                    return;
+
+                // 4. Xóa
+                db.TaiKhoans.Remove(taiKhoan);
+                db.SaveChanges();
+            }
+
+            // 5. Load lại danh sách
+            LoadTaiKhoan();
+
+            // 6. Xóa trắng textbox
+            ClearTextBoxes(tabQlTaiKhoan);
+
+            MessageBox.Show("Xóa tài khoản thành công!",
+                            "Thành công",
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Information);
+        }
+
+        private void btnThoat345_Click(object sender, EventArgs e)
+        {
+            var confirm = MessageBox.Show(
+                "Bạn có muốn thoát khỏi chức năng quản lý tài khoản?",
+                "Xác nhận",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Question);
+
+            if (confirm != DialogResult.Yes)
+                return;
+
+            tabQlHeThong.SelectedTab = tabQlNhanVien;
+            ClearTextBoxes(tabQlTaiKhoan);
         }
 
     }
