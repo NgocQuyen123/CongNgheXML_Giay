@@ -9,11 +9,237 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.IO;
+using System.Xml;
+using System.Data.Entity;
 
 namespace QuanLyShopGiay.views
 {
     public partial class Main : Form
     {
+        /// <summary>
+        /// </summary>
+        private bool hasShownXmlNoticeNV = false;
+        private readonly object xmlLock = new object();
+        private string NhanVienXmlPath => Path.Combine(Application.StartupPath, "NhanVien.xml");
+        private string GiayXmlPath => Path.Combine(Application.StartupPath, "Giay.xml");
+        private string HoaDonXmlPath => Path.Combine(Application.StartupPath, "HoaDon.xml");
+        private string TaiKhoanXmlPath => Path.Combine(Application.StartupPath, "TaiKhoan.xml");
+        private void LoadGridFromXml(string filePath, DataGridView dgv)
+        {
+            if (!File.Exists(filePath))
+            {
+                MessageBox.Show($"File {Path.GetFileName(filePath)} không tồn tại.", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            DataSet ds = new DataSet();
+            ds.ReadXml(filePath);
+
+            if (ds.Tables.Count == 0)
+            {
+                MessageBox.Show("Không có dữ liệu trong file XML.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
+            dgv.DataSource = ds.Tables[0];
+            dgv.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            if (dgv.Columns.Contains("MaTK"))
+            {
+                dgv.Columns["MaTK"].HeaderText = "Mã Tài Khoản";
+                dgv.Columns["TenTaiKhoan"].HeaderText = "Tên Tài Khoản";
+                dgv.Columns["MatKhau"].HeaderText = "Mật Khẩu";
+                dgv.Columns["QuyenHan"].HeaderText = "Quyền hạn";
+                dgv.Columns["MaNV"].HeaderText = "Mã Nhân Viên";
+                return;
+            }
+            if (dgv.Columns.Contains("MaHD"))
+            {
+                dgv.Columns["MaHD"].HeaderText = "Mã Hóa Đơn";
+                dgv.Columns["MaKH"].HeaderText = "Mã Khách Hàng";
+                dgv.Columns["MaNV"].HeaderText = "Mã Nhân Viên";
+                dgv.Columns["NgayLap"].HeaderText = "Ngày Lập";
+                return;
+            }
+
+            if (dgv.Columns.Contains("MaGiay"))
+            {
+                dgv.Columns["MaGiay"].HeaderText = "Mã Giày";
+                dgv.Columns["TenGiay"].HeaderText = "Tên Giày";
+                dgv.Columns["ThuongHieu"].HeaderText = "Thương Hiệu";
+                dgv.Columns["KichCo"].HeaderText = "Kích Cỡ";
+                dgv.Columns["SoLuong"].HeaderText = "Số Lượng";
+                dgv.Columns["Gia"].HeaderText = "Giá Bán";
+                return;
+            }
+
+            // Đổi tiêu đề cột nếu có
+            if (dgv.Columns.Contains("MaNV")) { 
+                dgv.Columns["MaNV"].HeaderText = "Mã Nhân Viên"; 
+                dgv.Columns["HoTen"].HeaderText = "Họ Tên";
+                dgv.Columns["DiaChi"].HeaderText = "Địa Chỉ"; 
+                dgv.Columns["SoDT"].HeaderText = "Số ĐT";
+                return;
+            }
+
+        }
+        private void RegenerateNhanVienXml()
+        {
+            lock (xmlLock)
+            {
+                using (var db = new QLBanGiayContext())
+                {
+                    var nvList = db.NhanViens
+                                   .Select(n => new { n.MaNV, n.HoTen, n.DiaChi, n.SoDT })
+                                   .ToList();
+
+                    DataTable dtNV = new DataTable("NhanVien");
+                    dtNV.Columns.Add("MaNV");
+                    dtNV.Columns.Add("HoTen");
+                    dtNV.Columns.Add("DiaChi");
+                    dtNV.Columns.Add("SoDT");
+
+                    foreach (var n in nvList)
+                        dtNV.Rows.Add(n.MaNV, n.HoTen, n.DiaChi, n.SoDT);
+
+                    DataSet ds = new DataSet("NewDataSet");
+                    ds.Tables.Add(dtNV);
+                    ds.WriteXml(NhanVienXmlPath, XmlWriteMode.WriteSchema);
+                }
+            }
+        }
+        private void RegenerateGiayXml()
+        {
+            lock (xmlLock)
+            {
+                using (var db = new QLBanGiayContext())
+                {
+                    var giayList = db.Giays
+                                      .Select(g => new { g.MaGiay, g.TenGiay, g.ThuongHieu, g.KichCo, g.SoLuong, g.Gia })
+                                      .ToList();
+
+                    DataTable dtGiay = new DataTable("Giay");
+                    dtGiay.Columns.Add("MaGiay");
+                    dtGiay.Columns.Add("TenGiay");
+                    dtGiay.Columns.Add("ThuongHieu");
+                    dtGiay.Columns.Add("KichCo");
+                    dtGiay.Columns.Add("SoLuong");
+                    dtGiay.Columns.Add("Gia");
+
+                    foreach (var g in giayList)
+                        dtGiay.Rows.Add(g.MaGiay, g.TenGiay, g.ThuongHieu, g.KichCo, g.SoLuong, g.Gia);
+
+                    DataSet ds = new DataSet("NewDataSet");
+                    ds.Tables.Add(dtGiay);
+                    ds.WriteXml(GiayXmlPath, XmlWriteMode.WriteSchema);
+                }
+            }
+        }
+        private void RegenerateHoaDonXml()
+        {
+            lock (xmlLock)
+            {
+                using (var db = new QLBanGiayContext())
+                {
+                    var hoaDonList = db.HoaDons
+                        .Select(hd => new
+                        {
+                            hd.MaHD,
+                            hd.MaKH,
+                            hd.MaNV,
+                            hd.NgayLap
+                        })
+                        .ToList();
+
+                    DataTable dtHD = new DataTable("HoaDon");
+                    dtHD.Columns.Add("MaHD");
+                    dtHD.Columns.Add("MaKH");
+                    dtHD.Columns.Add("MaNV");
+                    dtHD.Columns.Add("NgayLap");
+
+                    foreach (var hd in hoaDonList)
+                        dtHD.Rows.Add(hd.MaHD, hd.MaKH, hd.MaNV, hd.NgayLap);
+
+                    DataSet ds = new DataSet("NewDataSet");
+                    ds.Tables.Add(dtHD);
+                    ds.WriteXml(HoaDonXmlPath, XmlWriteMode.WriteSchema);
+                }
+            }
+        }
+        private void RegenerateTaiKhoanXml()
+        {
+            lock (xmlLock)
+            {
+                using (var db = new QLBanGiayContext())
+                {
+                    // Lấy danh sách tài khoản
+                    var taiKhoanList = db.TaiKhoans
+                                         .Select(tk => new { tk.MaTK, tk.TenTaiKhoan, tk.MatKhau, tk.QuyenHan, tk.MaNV })
+                                         .ToList();
+
+                    // Tạo DataTable
+                    DataTable dtTaiKhoan = new DataTable("TaiKhoan");
+                    dtTaiKhoan.Columns.Add("MaTK");
+                    dtTaiKhoan.Columns.Add("TenTaiKhoan");
+                    dtTaiKhoan.Columns.Add("MatKhau");
+                    dtTaiKhoan.Columns.Add("QuyenHan");
+                    dtTaiKhoan.Columns.Add("MaNV");
+
+                    // Đổ dữ liệu vào DataTable
+                    foreach (var tk in taiKhoanList)
+                    {
+                        dtTaiKhoan.Rows.Add(tk.MaTK, tk.TenTaiKhoan, tk.MatKhau, tk.QuyenHan, tk.MaNV);
+                    }
+
+                    // Tạo DataSet và ghi XML
+                    DataSet ds = new DataSet("NewDataSet");
+                    ds.Tables.Add(dtTaiKhoan);
+                    ds.WriteXml(TaiKhoanXmlPath, XmlWriteMode.WriteSchema);
+                }
+            }
+        }
+
+
+
+        private void LoadDanhSachNhanVien()
+        {
+            if (!File.Exists(NhanVienXmlPath))
+            {
+                dtgNhanVien.DataSource = null;
+
+                if (!hasShownXmlNoticeNV)
+                {
+                    this.BeginInvoke(new Action(() =>
+                    {
+                        MessageBox.Show(
+                            "Vui lòng ấn nút 'Tạo XML' để tạo file XML và hiển thị dữ liệu. \n" +
+                            "Tương tự cho các tab khác",
+                            "Thông báo",
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Information
+                        );
+                    }));
+
+                    hasShownXmlNoticeNV = true;
+                }
+                return;
+            }
+
+            LoadGridFromXml(NhanVienXmlPath, dtgNhanVien);
+        }
+
+        private void LoadDanhSachGiay()
+        {
+            if (!File.Exists(GiayXmlPath))
+            {
+                dtgGiay.DataSource = null;
+                return;
+            }
+
+            LoadGridFromXml(GiayXmlPath, dtgGiay);
+        }
+
+        //end test XML
         public Main()
         {
             InitializeComponent();
@@ -51,10 +277,14 @@ namespace QuanLyShopGiay.views
 
         private void Main_Load(object sender, EventArgs e)
         {
-            LoadDanhSachHoaDon();
+            // ===== KHÓA ID =====
+            txtMaNV.ReadOnly = true;
+            txtMaGiay.ReadOnly = true;
+
+            //LoadDanhSachHoaDon();
             LoadTaiKhoan();
             LoadDanhSachNhanVien();
-            LoadDanhSachGiay();
+            //LoadDanhSachGiay();
         }
 
         
@@ -63,33 +293,39 @@ namespace QuanLyShopGiay.views
         {
             string keyword = txtTimKiemGiay.Text.Trim();
 
-            using (var db = new QLBanGiayContext())
+            if (!File.Exists(GiayXmlPath))
             {
-                var ketQua = db.Giays
-                               .Where(g => g.TenGiay.Contains(keyword))
-                               .Select(g => new
-                               {
-                                   g.MaGiay,
-                                   g.TenGiay,
-                                   g.ThuongHieu,
-                                   g.KichCo,
-                                   g.SoLuong,
-                                   g.Gia
-                               })
-                               .ToList();
-
-                dgvGiay.DataSource = ketQua;
-
-                dgvGiay.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-
-                // 🔥 Đổi tên tiêu đề cột sang tiếng Việt
-                dgvGiay.Columns["MaGiay"].HeaderText = "Mã Giày";
-                dgvGiay.Columns["TenGiay"].HeaderText = "Giày";
-                dgvGiay.Columns["ThuongHieu"].HeaderText = "Thương Hiệu";
-                dgvGiay.Columns["KichCo"].HeaderText = "Kích Cỡ";
-                dgvGiay.Columns["SoLuong"].HeaderText = "Số Lượng";
-                dgvGiay.Columns["Gia"].HeaderText = "Giá Bán";
+                MessageBox.Show("File XML Giày không tồn tại!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
             }
+
+            DataSet ds = new DataSet();
+            ds.ReadXml(GiayXmlPath);
+
+            if (ds.Tables.Count == 0)
+            {
+                MessageBox.Show("File XML không có dữ liệu.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
+            DataTable dt = ds.Tables[0];
+
+            // Lọc dữ liệu bằng LINQ to DataTable
+            var ketQua = dt.AsEnumerable()
+                           .Where(row => row.Field<string>("TenGiay") != null &&
+                                         row.Field<string>("TenGiay").ToLower().Contains(keyword.ToLower()))
+                           .CopyToDataTable();
+
+            dgvGiay.DataSource = ketQua;
+            dgvGiay.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+
+            // Đổi tên tiêu đề cột
+            if (dgvGiay.Columns.Contains("MaGiay")) dgvGiay.Columns["MaGiay"].HeaderText = "Mã Giày";
+            if (dgvGiay.Columns.Contains("TenGiay")) dgvGiay.Columns["TenGiay"].HeaderText = "Giày";
+            if (dgvGiay.Columns.Contains("ThuongHieu")) dgvGiay.Columns["ThuongHieu"].HeaderText = "Thương Hiệu";
+            if (dgvGiay.Columns.Contains("KichCo")) dgvGiay.Columns["KichCo"].HeaderText = "Kích Cỡ";
+            if (dgvGiay.Columns.Contains("SoLuong")) dgvGiay.Columns["SoLuong"].HeaderText = "Số Lượng";
+            if (dgvGiay.Columns.Contains("Gia")) dgvGiay.Columns["Gia"].HeaderText = "Giá Bán";
 
         }
 
@@ -135,31 +371,65 @@ namespace QuanLyShopGiay.views
         {
             string keyword = txtTimKiemTaiKhoan.Text.Trim();
 
-            using (var db = new QLBanGiayContext())
+            if (!File.Exists(TaiKhoanXmlPath))
             {
-                var ketQua = db.TaiKhoans
-                    .Where(t =>
-                        t.TenTaiKhoan.Contains(keyword) 
-                    )
-                    .Select(t => new
-                    {
-                        t.MaTK,
-                        t.TenTaiKhoan,
-                        t.QuyenHan,
-                        TenNhanVien = t.NhanVien.HoTen,
-                        t.MaNV
-                    })
-                    .ToList();
+                MessageBox.Show("File XML Tài Khoản không tồn tại!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
 
-                dgvTimKiemTaiKhoan.DataSource = ketQua;
+            DataSet ds = new DataSet();
+            ds.ReadXml(TaiKhoanXmlPath);
+            DataTable dtTaiKhoan = ds.Tables[0];
 
-                dgvTimKiemTaiKhoan.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            DataTable ketQua;
 
+            try
+            {
+                // Tìm kiếm gần đúng theo TenTaiKhoan (không phân biệt hoa thường)
+                ketQua = dtTaiKhoan.AsEnumerable()
+                                   .Where(r => r.Field<string>("TenTaiKhoan")
+                                                 .IndexOf(keyword, StringComparison.OrdinalIgnoreCase) >= 0)
+                                   .CopyToDataTable();
+            }
+            catch
+            {
+                // Trường hợp không tìm thấy dòng nào
+                ketQua = dtTaiKhoan.Clone(); // Tạo DataTable rỗng cùng cấu trúc
+            }
+
+            // Load vào DataGridView
+            dgvTimKiemTaiKhoan.DataSource = ketQua;
+            dgvTimKiemTaiKhoan.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+
+            // Đổi tiêu đề cột
+            if (dgvTimKiemTaiKhoan.Columns.Contains("MaTK"))
                 dgvTimKiemTaiKhoan.Columns["MaTK"].HeaderText = "Mã Tài Khoản";
+            if (dgvTimKiemTaiKhoan.Columns.Contains("TenTaiKhoan"))
                 dgvTimKiemTaiKhoan.Columns["TenTaiKhoan"].HeaderText = "Tài Khoản";
+            if (dgvTimKiemTaiKhoan.Columns.Contains("QuyenHan"))
                 dgvTimKiemTaiKhoan.Columns["QuyenHan"].HeaderText = "Quyền Hạn";
-                dgvTimKiemTaiKhoan.Columns["TenNhanVien"].HeaderText = "Nhân Viên";
+            if (dgvTimKiemTaiKhoan.Columns.Contains("MaNV"))
                 dgvTimKiemTaiKhoan.Columns["MaNV"].HeaderText = "Mã Nhân Viên";
+
+            // Lấy tên nhân viên từ XML Nhân Viên
+            if (File.Exists(NhanVienXmlPath) && dgvTimKiemTaiKhoan.Columns.Contains("MaNV"))
+            {
+                DataSet dsNV = new DataSet();
+                dsNV.ReadXml(NhanVienXmlPath);
+                DataTable dtNV = dsNV.Tables[0];
+
+                // Thêm cột TenNhanVien nếu chưa có
+                if (!ketQua.Columns.Contains("TenNhanVien"))
+                    ketQua.Columns.Add("TenNhanVien");
+
+                foreach (DataRow row in ketQua.Rows)
+                {
+                    string maNV = row["MaNV"].ToString();
+                    var nvRow = dtNV.AsEnumerable().FirstOrDefault(r => r.Field<string>("MaNV") == maNV);
+                    row["TenNhanVien"] = nvRow != null ? nvRow.Field<string>("HoTen") : "";
+                }
+
+                dgvTimKiemTaiKhoan.Columns["TenNhanVien"].HeaderText = "Nhân Viên";
             }
         }
 
@@ -205,27 +475,13 @@ namespace QuanLyShopGiay.views
        
         private void LoadDanhSachHoaDon()
         {
-            using (var db = new QLBanGiayContext())
+            if (!File.Exists(HoaDonXmlPath))
             {
-                var dsHoaDon = db.HoaDons
-                    .Select(hd => new
-                    {
-                        hd.MaHD,
-                        hd.MaKH,
-                        hd.MaNV,
-                        hd.NgayLap
-                    })
-                    .ToList();
-
-                dgvHoaDon.DataSource = dsHoaDon;
-
-                dgvHoaDon.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-
-                dgvHoaDon.Columns["MaHD"].HeaderText = "Mã hóa đơn";
-                dgvHoaDon.Columns["MaKH"].HeaderText = "Mã khách hàng";
-                dgvHoaDon.Columns["MaNV"].HeaderText = "Mã nhân viên";
-                dgvHoaDon.Columns["NgayLap"].HeaderText = "Ngày lập";
+                dgvHoaDon.DataSource = null;
+                return;
             }
+
+            LoadGridFromXml(HoaDonXmlPath, dgvHoaDon);
         }
 
         private void textBox2_TextChanged(object sender, EventArgs e)
@@ -323,7 +579,8 @@ namespace QuanLyShopGiay.views
                 db.HoaDons.Add(hd);
                 db.SaveChanges(); // Lưu vào SQL
             }
-
+            RegenerateHoaDonXml();
+            LoadDanhSachHoaDon();
             // 4. Load lại danh sách
             LoadDanhSachHoaDon();
 
@@ -338,7 +595,6 @@ namespace QuanLyShopGiay.views
 
         private void button7_Click(object sender, EventArgs e)
         {
-            // 1. Kiểm tra mã tài khoản
             if (string.IsNullOrWhiteSpace(txtMaTK345.Text))
             {
                 MessageBox.Show("Vui lòng nhập mã tài khoản!",
@@ -357,66 +613,71 @@ namespace QuanLyShopGiay.views
                 return;
             }
 
-            using (var db = new QLBanGiayContext())
+            // 2. Load XML Tài Khoản
+            if (!File.Exists(TaiKhoanXmlPath))
             {
-                // 2. Tìm tài khoản
-                var tk = db.TaiKhoans.FirstOrDefault(t => t.MaTK == maTK);
+                MessageBox.Show("File XML Tài Khoản không tồn tại!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
 
-                if (tk == null)
+            DataSet ds = new DataSet();
+            ds.ReadXml(TaiKhoanXmlPath);
+            DataTable dt = ds.Tables[0];
+
+            // 3. Tìm tài khoản cần sửa
+            var row = dt.AsEnumerable().FirstOrDefault(r => r.Field<string>("MaTK") == maTK.ToString());
+            if (row == null)
+            {
+                MessageBox.Show("Tài khoản không tồn tại!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            // 4. Sửa từng trường nếu có nhập
+            if (!string.IsNullOrWhiteSpace(txtTK345.Text))
+                row["TenTaiKhoan"] = txtTK345.Text.Trim();
+
+            if (!string.IsNullOrWhiteSpace(txtMK345.Text))
+                row["MatKhau"] = txtMK345.Text.Trim();
+
+            if (!string.IsNullOrWhiteSpace(txtQuyen345.Text))
+                row["QuyenHan"] = txtQuyen345.Text.Trim();
+
+            if (!string.IsNullOrWhiteSpace(txtMaNV345.Text))
+            {
+                if (!int.TryParse(txtMaNV345.Text.Trim(), out int maNV))
                 {
-                    MessageBox.Show("Tài khoản không tồn tại!",
-                                    "Thông báo",
-                                    MessageBoxButtons.OK,
-                                    MessageBoxIcon.Warning);
+                    MessageBox.Show("Mã nhân viên không hợp lệ!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
 
-                // 3. Sửa TỪNG TRƯỜNG (có nhập thì sửa)
-                if (!string.IsNullOrWhiteSpace(txtTK345.Text))
-                    tk.TenTaiKhoan = txtTK345.Text.Trim();
-
-                if (!string.IsNullOrWhiteSpace(txtMK345.Text))
-                    tk.MatKhau = txtMK345.Text.Trim();
-
-                if (!string.IsNullOrWhiteSpace(txtQuyen345.Text))
-                    tk.QuyenHan = txtQuyen345.Text.Trim();
-
-                if (!string.IsNullOrWhiteSpace(txtMaNV345.Text))
+                // Kiểm tra tồn tại nhân viên trong XML
+                DataSet dsNV = new DataSet();
+                if (!File.Exists(NhanVienXmlPath))
                 {
-                    if (!int.TryParse(txtMaNV345.Text.Trim(), out int maNV))
-                    {
-                        MessageBox.Show("Mã nhân viên không hợp lệ!",
-                                        "Lỗi",
-                                        MessageBoxButtons.OK,
-                                        MessageBoxIcon.Error);
-                        return;
-                    }
+                    MessageBox.Show("File XML Nhân Viên không tồn tại!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+                dsNV.ReadXml(NhanVienXmlPath);
+                DataTable dtNV = dsNV.Tables[0];
 
-                    bool tonTaiNV = db.NhanViens.Any(nv => nv.MaNV == maNV);
-                    if (!tonTaiNV)
-                    {
-                        MessageBox.Show("Mã nhân viên không tồn tại!",
-                                        "Lỗi",
-                                        MessageBoxButtons.OK,
-                                        MessageBoxIcon.Error);
-                        return;
-                    }
-
-                    tk.MaNV = maNV;
+                bool tonTaiNV = dtNV.AsEnumerable().Any(r => r.Field<string>("MaNV") == maNV.ToString());
+                if (!tonTaiNV)
+                {
+                    MessageBox.Show("Mã nhân viên không tồn tại trong XML!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
                 }
 
-                // 4. Lưu
-                db.SaveChanges();
+                row["MaNV"] = maNV;
             }
 
-            // 5. Load lại
+            // 5. Lưu XML
+            ds.WriteXml(TaiKhoanXmlPath, XmlWriteMode.WriteSchema);
+
+            // 6. Load lại DataGridView
             LoadTaiKhoan();
             ClearTextBoxes(tabQlTaiKhoan);
 
-            MessageBox.Show("Sửa tài khoản thành công!",
-                            "Thành công",
-                            MessageBoxButtons.OK,
-                            MessageBoxIcon.Information);
+            MessageBox.Show("Sửa tài khoản thành công!", "Thành công", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
 
@@ -426,29 +687,13 @@ namespace QuanLyShopGiay.views
         }
         private void LoadTaiKhoan()
         {
-            using (var db = new QLBanGiayContext())
+            if (!File.Exists(TaiKhoanXmlPath))
             {
-                var data = db.TaiKhoans
-                    .Select(tk => new
-                    {
-                        tk.MaTK,
-                        tk.TenTaiKhoan,
-                        tk.MatKhau,
-                        tk.QuyenHan,
-                        tk.MaNV
-                    })
-                    .ToList();
-
-                dgvTaiKhoan345.DataSource = data;
-
-                dgvTaiKhoan345.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-
-                dgvTaiKhoan345.Columns["MaTK"].HeaderText = "Mã tài khoản";
-                dgvTaiKhoan345.Columns["TenTaiKhoan"].HeaderText = "Tên tài khoản";
-                dgvTaiKhoan345.Columns["MatKhau"].HeaderText = "Mật khẩu";
-                dgvTaiKhoan345.Columns["QuyenHan"].HeaderText = "Quyền hạn";
-                dgvTaiKhoan345.Columns["MaNV"].HeaderText = "Mã nhân viên";
+                dgvHoaDon.DataSource = null;
+                return;
             }
+
+            LoadGridFromXml(TaiKhoanXmlPath, dgvTaiKhoan345);
         }
 
         private void dataGridView2_CellContentClick(object sender, DataGridViewCellEventArgs e)
@@ -460,69 +705,124 @@ namespace QuanLyShopGiay.views
         {
             string keyword = txtTimKiemHoaDon.Text.Trim();
 
-            using (var db = new QLBanGiayContext())
+            if (!File.Exists(HoaDonXmlPath))
             {
-                var ketQua = db.HoaDons
-                    .Where(h => h.MaHD.ToString() == keyword)   // ⬅ Chỉ tìm đúng mã hóa đơn
-                    .Select(h => new
-                    {
-                        h.MaHD,
-                        TenKhachHang = h.KhachHang.HoTen,
-                        TenNhanVien = h.NhanVien.HoTen,
-                        h.NgayLap,
-
-                        ThanhTien = h.ChiTietHoaDons
-                                    .Sum(ct => ct.SoLuongMua * ct.Giay.Gia)
-                    })
-                    .ToList();
-
-                dgvTimKiemHoaDon.DataSource = ketQua;
-
-                dgvTimKiemHoaDon.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-
-                dgvTimKiemHoaDon.Columns["MaHD"].HeaderText = "Mã Hóa Đơn";
-                dgvTimKiemHoaDon.Columns["TenKhachHang"].HeaderText = "Khách Hàng";
-                dgvTimKiemHoaDon.Columns["TenNhanVien"].HeaderText = "Nhân Viên";
-                dgvTimKiemHoaDon.Columns["NgayLap"].HeaderText = "Ngày Lập";
-                dgvTimKiemHoaDon.Columns["ThanhTien"].HeaderText = "Thành Tiền (VNĐ)";
+                MessageBox.Show("File XML hóa đơn không tồn tại.", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
             }
+
+            DataSet ds = new DataSet();
+            ds.ReadXml(HoaDonXmlPath);
+
+            if (ds.Tables.Count == 0)
+            {
+                MessageBox.Show("Không có dữ liệu trong file XML.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
+            DataTable dt = ds.Tables[0];
+
+            // Tìm các dòng theo keyword
+            DataTable ketQua;
+            try
+            {
+                ketQua = dt.AsEnumerable()
+                           .Where(row => row.Field<string>("MaHD") != null &&
+                                         row.Field<string>("MaHD").Equals(keyword, StringComparison.OrdinalIgnoreCase))
+                           .CopyToDataTable();
+            }
+            catch
+            {
+                // Trường hợp không có dòng nào thỏa mãn
+                ketQua = dt.Clone(); // tạo table rỗng cùng cấu trúc
+            }
+
+            dgvTimKiemHoaDon.DataSource = ketQua;
+            dgvTimKiemHoaDon.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+
+            // Đổi tiêu đề cột
+            if (dgvTimKiemHoaDon.Columns.Contains("MaHD"))
+                dgvTimKiemHoaDon.Columns["MaHD"].HeaderText = "Mã Hóa Đơn";
+
+            if (dgvTimKiemHoaDon.Columns.Contains("MaKH"))
+                dgvTimKiemHoaDon.Columns["MaKH"].HeaderText = "Mã Khách Hàng";
+
+            if (dgvTimKiemHoaDon.Columns.Contains("MaNV"))
+                dgvTimKiemHoaDon.Columns["MaNV"].HeaderText = "Mã Nhân Viên";
+
+            if (dgvTimKiemHoaDon.Columns.Contains("NgayLap"))
+                dgvTimKiemHoaDon.Columns["NgayLap"].HeaderText = "Ngày Lập";
+
+            if (dgvTimKiemHoaDon.Columns.Contains("ThanhTien"))
+                dgvTimKiemHoaDon.Columns["ThanhTien"].HeaderText = "Thành Tiền (VNĐ)";
         }
 
         private void btnTimKiemNhanVien_Click(object sender, EventArgs e)
         {
             string keyword = txtTimKiemNhanVien.Text.Trim();
 
-            using (var db = new QLBanGiayContext())
+            if (!File.Exists(NhanVienXmlPath))
             {
-                var ketQua = db.NhanViens
-                    .Where(nv => nv.HoTen.Contains(keyword))   // ⬅ Tìm gần đúng theo tên
-                    .Select(nv => new
-                    {
-                        nv.MaNV,
-                        nv.HoTen,
-                        nv.DiaChi,
-                        nv.SoDT
-                    })
-                    .ToList();
-
-                dgvNhanVien.DataSource = ketQua;
-
-                dgvNhanVien.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-
-                dgvNhanVien.Columns["MaNV"].HeaderText = "Mã Nhân Viên";
-                dgvNhanVien.Columns["HoTen"].HeaderText = "Họ Tên";
-                dgvNhanVien.Columns["DiaChi"].HeaderText = "Địa Chỉ";
-                dgvNhanVien.Columns["SoDT"].HeaderText = "Số Điện Thoại";
+                MessageBox.Show("File XML Nhân Viên không tồn tại.", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
             }
+
+            DataSet ds = new DataSet();
+            ds.ReadXml(NhanVienXmlPath);
+
+            if (ds.Tables.Count == 0)
+            {
+                MessageBox.Show("Không có dữ liệu trong file XML.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
+            DataTable dt = ds.Tables[0];
+
+            DataTable ketQua;
+            try
+            {
+                ketQua = dt.AsEnumerable()
+                           .Where(row =>
+                               row.Field<string>("HoTen") != null &&
+                               row.Field<string>("HoTen").IndexOf(keyword, StringComparison.OrdinalIgnoreCase) >= 0
+                           )
+                           .CopyToDataTable();
+            }
+            catch
+            {
+                // Nếu không có kết quả, tạo DataTable rỗng
+                ketQua = dt.Clone();
+            }
+
+            dgvNhanVien.DataSource = ketQua;
+            dgvNhanVien.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+
+            // Đổi tên cột
+            if (dgvNhanVien.Columns.Contains("MaNV"))
+                dgvNhanVien.Columns["MaNV"].HeaderText = "Mã Nhân Viên";
+
+            if (dgvNhanVien.Columns.Contains("HoTen"))
+                dgvNhanVien.Columns["HoTen"].HeaderText = "Họ Tên";
+
+            if (dgvNhanVien.Columns.Contains("DiaChi"))
+                dgvNhanVien.Columns["DiaChi"].HeaderText = "Địa Chỉ";
+
+            if (dgvNhanVien.Columns.Contains("SoDT"))
+                dgvNhanVien.Columns["SoDT"].HeaderText = "Số Điện Thoại";
         }
 
         private void btnThemNV_Click(object sender, EventArgs e)
         {
+            if (string.IsNullOrWhiteSpace(txtTenNV.Text))
+            {
+                MessageBox.Show("Nhập tên nhân viên!");
+                return;
+            }
+
             using (var db = new QLBanGiayContext())
             {
                 NhanVien nv = new NhanVien
                 {
-                    MaNV = int.TryParse(txtMaNV.Text.Trim(), out int mnv) ? mnv : 0,
                     HoTen = txtTenNV.Text.Trim(),
                     DiaChi = txtDiaChiNV.Text.Trim(),
                     SoDT = txtSDTNV.Text.Trim()
@@ -532,57 +832,68 @@ namespace QuanLyShopGiay.views
                 db.SaveChanges();
             }
 
+            // Tạo lại XML từ DB (đảm bảo đồng bộ)
+            RegenerateNhanVienXml();
+
+            // Load lại DGV từ XML
             LoadDanhSachNhanVien();
             ClearTextBoxes(tabQlNhanVien);
         }
 
         private void btnSuaNV_Click(object sender, EventArgs e)
         {
-            using (var db = new QLBanGiayContext())
+            if (!int.TryParse(txtMaNV.Text.Trim(), out int maNV))
             {
-                int maNV = int.TryParse(txtMaNV.Text.Trim(), out int mnv) ? mnv : 0;
-                var nv = db.NhanViens.FirstOrDefault(n => n.MaNV == maNV);
-
-                if (nv != null)
-                {
-                    nv.HoTen = txtTenNV.Text.Trim();
-                    nv.DiaChi = txtDiaChiNV.Text.Trim();
-                    nv.SoDT = txtSDTNV.Text.Trim();
-
-                    db.SaveChanges();
-                }
-                else
-                {
-                    MessageBox.Show("Mã Nhân Viên không tồn tại!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                }
+                MessageBox.Show("Mã NV không hợp lệ!");
+                return;
             }
 
+            using (var db = new QLBanGiayContext())
+            {
+                var nv = db.NhanViens.FirstOrDefault(n => n.MaNV == maNV);
+                if (nv == null)
+                {
+                    MessageBox.Show("Mã nhân viên không tồn tại!");
+                    return;
+                }
+
+                nv.HoTen = txtTenNV.Text.Trim();
+                nv.DiaChi = txtDiaChiNV.Text.Trim();
+                nv.SoDT = txtSDTNV.Text.Trim();
+
+                db.SaveChanges();
+            }
+
+            RegenerateNhanVienXml();
             LoadDanhSachNhanVien();
             ClearTextBoxes(tabQlNhanVien);
         }
 
         private void btnXoaNV_Click(object sender, EventArgs e)
         {
-            using (var db = new QLBanGiayContext())
+            if (!int.TryParse(txtMaNV.Text.Trim(), out int maNV))
             {
-                int maNV = int.TryParse(txtMaNV.Text.Trim(), out int mnv) ? mnv : 0;
-                var nv = db.NhanViens.FirstOrDefault(n => n.MaNV == maNV);
-
-                if (nv != null)
-                {
-                    var confirm = MessageBox.Show("Bạn có chắc muốn xóa nhân viên này?", "Xác nhận", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-                    if (confirm == DialogResult.Yes)
-                    {
-                        db.NhanViens.Remove(nv);
-                        db.SaveChanges();
-                    }
-                }
-                else
-                {
-                    MessageBox.Show("Mã Nhân Viên không tồn tại!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                }
+                MessageBox.Show("Mã NV không hợp lệ!");
+                return;
             }
 
+            var confirm = MessageBox.Show("Bạn có chắc muốn xóa nhân viên này?", "Xác nhận", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (confirm != DialogResult.Yes) return;
+
+            using (var db = new QLBanGiayContext())
+            {
+                var nv = db.NhanViens.FirstOrDefault(n => n.MaNV == maNV);
+                if (nv == null)
+                {
+                    MessageBox.Show("Mã nhân viên không tồn tại!");
+                    return;
+                }
+
+                db.NhanViens.Remove(nv);
+                db.SaveChanges();
+            }
+
+            RegenerateNhanVienXml();
             LoadDanhSachNhanVien();
             ClearTextBoxes(tabQlNhanVien);
         }
@@ -599,20 +910,20 @@ namespace QuanLyShopGiay.views
             {
                 Giay giay = new Giay
                 {
-                    MaGiay = int.TryParse(txtMaGiay.Text.Trim(), out int mg) ? mg : 0,
                     TenGiay = txtTenGiay.Text.Trim(),
                     ThuongHieu = txtThuongHieu.Text.Trim(),
                     KichCo = int.TryParse(txtKichCo.Text.Trim(), out int kc) ? kc : 0,
                     SoLuong = int.TryParse(txtSoLuong.Text.Trim(), out int sl) ? sl : 0,
                     Gia = decimal.TryParse(txtGia.Text.Trim(), out decimal gia) ? gia : 0
                 };
-
                 db.Giays.Add(giay);
                 db.SaveChanges();
-            }
 
+            }
+            RegenerateGiayXml();
             LoadDanhSachGiay();
             ClearTextBoxes(tabQlGiay);
+
         }
 
         private void btnSuaGiay_Click(object sender, EventArgs e)
@@ -638,6 +949,7 @@ namespace QuanLyShopGiay.views
                 }
             }
 
+            RegenerateGiayXml();
             LoadDanhSachGiay();
             ClearTextBoxes(tabQlGiay);
         }
@@ -663,7 +975,7 @@ namespace QuanLyShopGiay.views
                     MessageBox.Show("Mã Giày không tồn tại!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 }
             }
-
+            RegenerateGiayXml();
             LoadDanhSachGiay();
             ClearTextBoxes(tabQlGiay);
         }
@@ -674,23 +986,6 @@ namespace QuanLyShopGiay.views
             ClearTextBoxes(tabQlGiay);
         }
 
-        private void LoadDanhSachNhanVien()
-        {
-            using (var db = new QLBanGiayContext())
-            {
-                dtgNhanVien.DataSource = db.NhanViens
-                    .Select(n => new
-                    {
-                        n.MaNV,
-                        n.HoTen,
-                        n.DiaChi,
-                        n.SoDT
-                    })
-                    .ToList();
-            }
-
-            dtgNhanVien.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-        }
 
         private void ClearTextBoxes(TabPage tab)
         {
@@ -701,33 +996,6 @@ namespace QuanLyShopGiay.views
             }
         }
 
-        private void LoadDanhSachGiay()
-        {
-            using (var db = new QLBanGiayContext())
-            {
-                dtgGiay.DataSource = db.Giays
-                    .Select(g => new
-                    {
-                        g.MaGiay,
-                        g.TenGiay,
-                        g.ThuongHieu,
-                        g.KichCo,
-                        g.SoLuong,
-                        g.Gia
-                    })
-                    .ToList();
-            }
-
-            dtgGiay.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-
-            // Đặt tên cột tiếng Việt
-            dtgGiay.Columns["MaGiay"].HeaderText = "Mã Giày";
-            dtgGiay.Columns["TenGiay"].HeaderText = "Tên Giày";
-            dtgGiay.Columns["ThuongHieu"].HeaderText = "Thương Hiệu";
-            dtgGiay.Columns["KichCo"].HeaderText = "Kích Cỡ";
-            dtgGiay.Columns["SoLuong"].HeaderText = "Số Lượng";
-            dtgGiay.Columns["Gia"].HeaderText = "Giá Bán";
-        }
 
         private void dtgGiay_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
@@ -837,6 +1105,7 @@ namespace QuanLyShopGiay.views
             }
 
             // 5. Load lại danh sách
+            RegenerateHoaDonXml();
             LoadDanhSachHoaDon();
             ClearTextBoxes(tabQlHoaDon);
 
@@ -902,6 +1171,7 @@ namespace QuanLyShopGiay.views
             }
 
             // 6. Load lại danh sách
+            RegenerateHoaDonXml();
             LoadDanhSachHoaDon();
             ClearTextBoxes(tabQlHoaDon);
 
@@ -915,9 +1185,9 @@ namespace QuanLyShopGiay.views
         {
             // 1. Kiểm tra dữ liệu nhập
             if (string.IsNullOrWhiteSpace(txtTK345.Text) ||
-                string.IsNullOrWhiteSpace(txtMK345.Text) ||
-                string.IsNullOrWhiteSpace(txtQuyen345.Text) ||
-                string.IsNullOrWhiteSpace(txtMaNV345.Text))
+    string.IsNullOrWhiteSpace(txtMK345.Text) ||
+    string.IsNullOrWhiteSpace(txtQuyen345.Text) ||
+    string.IsNullOrWhiteSpace(txtMaNV345.Text))
             {
                 MessageBox.Show("Vui lòng nhập đầy đủ thông tin tài khoản!",
                                 "Thiếu dữ liệu",
@@ -935,49 +1205,71 @@ namespace QuanLyShopGiay.views
                 return;
             }
 
-            using (var db = new QLBanGiayContext())
+            // 2. Load XML hiện tại
+            DataSet ds = new DataSet();
+            if (File.Exists(TaiKhoanXmlPath))
+                ds.ReadXml(TaiKhoanXmlPath);
+
+            // Nếu chưa có bảng, tạo mới
+            if (ds.Tables.Count == 0)
             {
-                // 2. Kiểm tra trùng tên tài khoản
-                bool tonTaiTK = db.TaiKhoans
-                                  .Any(t => t.TenTaiKhoan == txtTK345.Text.Trim());
-
-                if (tonTaiTK)
-                {
-                    MessageBox.Show("Tên tài khoản đã tồn tại!",
-                                    "Lỗi",
-                                    MessageBoxButtons.OK,
-                                    MessageBoxIcon.Error);
-                    return;
-                }
-
-                // 3. Kiểm tra nhân viên tồn tại
-                bool tonTaiNV = db.NhanViens.Any(nv => nv.MaNV == maNV);
-                if (!tonTaiNV)
-                {
-                    MessageBox.Show("Mã nhân viên không tồn tại!",
-                                    "Lỗi",
-                                    MessageBoxButtons.OK,
-                                    MessageBoxIcon.Error);
-                    return;
-                }
-
-                // 4. Thêm tài khoản mới
-                TaiKhoan tk = new TaiKhoan
-                {
-                    TenTaiKhoan = txtTK345.Text.Trim(),
-                    MatKhau = txtMK345.Text.Trim(),
-                    QuyenHan = txtQuyen345.Text.Trim(),
-                    MaNV = maNV
-                };
-
-                db.TaiKhoans.Add(tk);
-                db.SaveChanges();
+                DataTable dtTaiKhoan = new DataTable("TaiKhoan");
+                dtTaiKhoan.Columns.Add("MaTK");
+                dtTaiKhoan.Columns.Add("TenTaiKhoan");
+                dtTaiKhoan.Columns.Add("MatKhau");
+                dtTaiKhoan.Columns.Add("QuyenHan");
+                dtTaiKhoan.Columns.Add("MaNV");
+                ds.Tables.Add(dtTaiKhoan);
             }
 
-            // 5. Load lại DataGridView
+            DataTable dt = ds.Tables[0];
+
+            // 3. Kiểm tra trùng tên tài khoản
+            bool tonTaiTK = dt.AsEnumerable()
+                              .Any(row => row.Field<string>("TenTaiKhoan") == txtTK345.Text.Trim());
+            if (tonTaiTK)
+            {
+                MessageBox.Show("Tên tài khoản đã tồn tại!",
+                                "Lỗi",
+                                MessageBoxButtons.OK,
+                                MessageBoxIcon.Error);
+                return;
+            }
+
+            // 4. Kiểm tra nhân viên tồn tại trong XML Nhân Viên
+            DataSet dsNV = new DataSet();
+            if (!File.Exists(NhanVienXmlPath))
+            {
+                MessageBox.Show("File XML Nhân Viên không tồn tại.", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+            dsNV.ReadXml(NhanVienXmlPath);
+            DataTable dtNV = dsNV.Tables[0];
+
+            bool tonTaiNV = dtNV.AsEnumerable().Any(row => row.Field<string>("MaNV") == maNV.ToString());
+            if (!tonTaiNV)
+            {
+                MessageBox.Show("Mã nhân viên không tồn tại trong XML!",
+                                "Lỗi",
+                                MessageBoxButtons.OK,
+                                MessageBoxIcon.Error);
+                return;
+            }
+
+            // 5. Thêm tài khoản mới
+            int newMaTK = 1;
+            if (dt.Rows.Count > 0)
+                newMaTK = dt.AsEnumerable().Max(r => Convert.ToInt32(r["MaTK"])) + 1;
+
+            dt.Rows.Add(newMaTK, txtTK345.Text.Trim(), txtMK345.Text.Trim(), txtQuyen345.Text.Trim(), maNV);
+
+            // 6. Lưu lại XML
+            ds.WriteXml(TaiKhoanXmlPath, XmlWriteMode.WriteSchema);
+
+            // 7. Load lại DataGridView từ XML
             LoadTaiKhoan();
 
-            // 6. Xóa trắng textbox
+            // 8. Xóa trắng textbox
             ClearTextBoxes(tabQlTaiKhoan);
 
             MessageBox.Show("Thêm tài khoản thành công!",
@@ -988,7 +1280,6 @@ namespace QuanLyShopGiay.views
 
         private void btnXoa345_Click(object sender, EventArgs e)
         {
-            // 1. Kiểm tra mã tài khoản
             if (string.IsNullOrWhiteSpace(txtMaTK345.Text))
             {
                 MessageBox.Show("Vui lòng nhập mã tài khoản cần xóa!",
@@ -1007,46 +1298,47 @@ namespace QuanLyShopGiay.views
                 return;
             }
 
-            using (var db = new QLBanGiayContext())
+            // 2. Load XML Tài Khoản
+            if (!File.Exists(TaiKhoanXmlPath))
             {
-                // 2. Kiểm tra tài khoản tồn tại
-                var taiKhoan = db.TaiKhoans.FirstOrDefault(t => t.MaTK == maTK);
-
-                if (taiKhoan == null)
-                {
-                    MessageBox.Show("Tài khoản không tồn tại!",
-                                    "Thông báo",
-                                    MessageBoxButtons.OK,
-                                    MessageBoxIcon.Warning);
-                    return;
-                }
-
-                // 3. Xác nhận xóa
-                var confirm = MessageBox.Show(
-                    $"Bạn có chắc chắn muốn xóa tài khoản [{taiKhoan.TenTaiKhoan}]?",
-                    "Xác nhận xóa",
-                    MessageBoxButtons.YesNo,
-                    MessageBoxIcon.Question
-                );
-
-                if (confirm != DialogResult.Yes)
-                    return;
-
-                // 4. Xóa
-                db.TaiKhoans.Remove(taiKhoan);
-                db.SaveChanges();
+                MessageBox.Show("File XML Tài Khoản không tồn tại!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
             }
 
-            // 5. Load lại danh sách
+            DataSet ds = new DataSet();
+            ds.ReadXml(TaiKhoanXmlPath);
+            DataTable dt = ds.Tables[0];
+
+            // 3. Tìm tài khoản
+            var row = dt.AsEnumerable().FirstOrDefault(r => r.Field<string>("MaTK") == maTK.ToString());
+            if (row == null)
+            {
+                MessageBox.Show("Tài khoản không tồn tại!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            // 4. Xác nhận xóa
+            var confirm = MessageBox.Show(
+                $"Bạn có chắc chắn muốn xóa tài khoản [{row["TenTaiKhoan"]}]?",
+                "Xác nhận xóa",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Question
+            );
+
+            if (confirm != DialogResult.Yes)
+                return;
+
+            // 5. Xóa và lưu lại XML
+            dt.Rows.Remove(row);
+            ds.WriteXml(TaiKhoanXmlPath, XmlWriteMode.WriteSchema);
+
+            // 6. Load lại DataGridView
             LoadTaiKhoan();
 
-            // 6. Xóa trắng textbox
+            // 7. Xóa textbox
             ClearTextBoxes(tabQlTaiKhoan);
 
-            MessageBox.Show("Xóa tài khoản thành công!",
-                            "Thành công",
-                            MessageBoxButtons.OK,
-                            MessageBoxIcon.Information);
+            MessageBox.Show("Xóa tài khoản thành công!", "Thành công", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         private void btnThoat345_Click(object sender, EventArgs e)
@@ -1064,6 +1356,72 @@ namespace QuanLyShopGiay.views
             ClearTextBoxes(tabQlTaiKhoan);
         }
 
+        private void btnTaoXMLNV_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                RegenerateNhanVienXml();
+                LoadGridFromXml(NhanVienXmlPath, dtgNhanVien);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(
+                    "Lỗi khi tạo XML Nhân Viên:\n" + ex.Message,
+                    "Lỗi",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error
+                );
+            }
+        }
+
+        private void btnTaoXMLGiay_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                RegenerateGiayXml();
+                LoadGridFromXml(GiayXmlPath, dtgGiay);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(
+                    "Lỗi khi tạo XML Giày:\n" + ex.Message,
+                    "Lỗi",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error
+                );
+            }
+        }
+
+        private void btnTaoXmlHoaDon_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                RegenerateHoaDonXml();              // chỉ tạo XML
+                LoadGridFromXml(HoaDonXmlPath, dgvHoaDon); // load lại grid
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(
+                    "Lỗi khi tạo XML Hóa Đơn:\n" + ex.Message,
+                    "Lỗi",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error
+                );
+            }
+        }
+
+        private void btnTaoXmlTaiKhoan_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                RegenerateTaiKhoanXml();              // tạo file XML
+                LoadGridFromXml(TaiKhoanXmlPath, dgvTaiKhoan345); // load lại DataGridView
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Lỗi khi tạo XML Tài Khoản:\n" + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
     }
 }
 

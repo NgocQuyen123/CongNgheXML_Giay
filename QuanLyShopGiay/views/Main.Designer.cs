@@ -35,6 +35,7 @@
             this.tabQlHeThong = new System.Windows.Forms.TabControl();
             this.tabQlNhanVien = new System.Windows.Forms.TabPage();
             this.groupBoxQLNhanVien = new System.Windows.Forms.GroupBox();
+            this.btnTaoXMLNV = new System.Windows.Forms.Button();
             this.btnThoatNV = new System.Windows.Forms.Button();
             this.btnXoaNV = new System.Windows.Forms.Button();
             this.btnSuaNV = new System.Windows.Forms.Button();
@@ -53,6 +54,7 @@
             this.tabQlGiay = new System.Windows.Forms.TabPage();
             this.dtgGiay = new System.Windows.Forms.DataGridView();
             this.groupBoxQLGiay = new System.Windows.Forms.GroupBox();
+            this.btnTaoXMLGiay = new System.Windows.Forms.Button();
             this.btnThoatGiay = new System.Windows.Forms.Button();
             this.btnXoaGiay = new System.Windows.Forms.Button();
             this.btnSuaGiay = new System.Windows.Forms.Button();
@@ -72,6 +74,7 @@
             this.label31 = new System.Windows.Forms.Label();
             this.label32 = new System.Windows.Forms.Label();
             this.tabQlHoaDon = new System.Windows.Forms.TabPage();
+            this.btnTaoXmlHoaDon = new System.Windows.Forms.Button();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.dgvHoaDon = new System.Windows.Forms.DataGridView();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
@@ -148,6 +151,7 @@
             this.label1 = new System.Windows.Forms.Label();
             this.tabGioiThieu = new System.Windows.Forms.TabPage();
             this.label2 = new System.Windows.Forms.Label();
+            this.btnTaoXmlTaiKhoan = new System.Windows.Forms.Button();
             this.tabMenu.SuspendLayout();
             this.tabHeThong.SuspendLayout();
             this.tabQlHeThong.SuspendLayout();
@@ -242,6 +246,7 @@
             // 
             // groupBoxQLNhanVien
             // 
+            this.groupBoxQLNhanVien.Controls.Add(this.btnTaoXMLNV);
             this.groupBoxQLNhanVien.Controls.Add(this.btnThoatNV);
             this.groupBoxQLNhanVien.Controls.Add(this.btnXoaNV);
             this.groupBoxQLNhanVien.Controls.Add(this.btnSuaNV);
@@ -254,9 +259,19 @@
             this.groupBoxQLNhanVien.TabStop = false;
             this.groupBoxQLNhanVien.Text = "Chức năng";
             // 
+            // btnTaoXMLNV
+            // 
+            this.btnTaoXMLNV.Location = new System.Drawing.Point(136, 35);
+            this.btnTaoXMLNV.Name = "btnTaoXMLNV";
+            this.btnTaoXMLNV.Size = new System.Drawing.Size(165, 47);
+            this.btnTaoXMLNV.TabIndex = 4;
+            this.btnTaoXMLNV.Text = "Tạo XML";
+            this.btnTaoXMLNV.UseVisualStyleBackColor = true;
+            this.btnTaoXMLNV.Click += new System.EventHandler(this.btnTaoXMLNV_Click);
+            // 
             // btnThoatNV
             // 
-            this.btnThoatNV.Location = new System.Drawing.Point(1022, 35);
+            this.btnThoatNV.Location = new System.Drawing.Point(1125, 35);
             this.btnThoatNV.Name = "btnThoatNV";
             this.btnThoatNV.Size = new System.Drawing.Size(165, 46);
             this.btnThoatNV.TabIndex = 3;
@@ -266,7 +281,7 @@
             // 
             // btnXoaNV
             // 
-            this.btnXoaNV.Location = new System.Drawing.Point(734, 35);
+            this.btnXoaNV.Location = new System.Drawing.Point(873, 35);
             this.btnXoaNV.Name = "btnXoaNV";
             this.btnXoaNV.Size = new System.Drawing.Size(165, 46);
             this.btnXoaNV.TabIndex = 2;
@@ -276,7 +291,7 @@
             // 
             // btnSuaNV
             // 
-            this.btnSuaNV.Location = new System.Drawing.Point(410, 35);
+            this.btnSuaNV.Location = new System.Drawing.Point(632, 35);
             this.btnSuaNV.Name = "btnSuaNV";
             this.btnSuaNV.Size = new System.Drawing.Size(165, 46);
             this.btnSuaNV.TabIndex = 1;
@@ -286,7 +301,7 @@
             // 
             // btnThemNV
             // 
-            this.btnThemNV.Location = new System.Drawing.Point(90, 35);
+            this.btnThemNV.Location = new System.Drawing.Point(366, 35);
             this.btnThemNV.Name = "btnThemNV";
             this.btnThemNV.Size = new System.Drawing.Size(165, 46);
             this.btnThemNV.TabIndex = 0;
@@ -431,6 +446,7 @@
             // 
             // groupBoxQLGiay
             // 
+            this.groupBoxQLGiay.Controls.Add(this.btnTaoXMLGiay);
             this.groupBoxQLGiay.Controls.Add(this.btnThoatGiay);
             this.groupBoxQLGiay.Controls.Add(this.btnXoaGiay);
             this.groupBoxQLGiay.Controls.Add(this.btnSuaGiay);
@@ -443,10 +459,20 @@
             this.groupBoxQLGiay.TabStop = false;
             this.groupBoxQLGiay.Text = "Chức năng";
             // 
+            // btnTaoXMLGiay
+            // 
+            this.btnTaoXMLGiay.Location = new System.Drawing.Point(948, 35);
+            this.btnTaoXMLGiay.Name = "btnTaoXMLGiay";
+            this.btnTaoXMLGiay.Size = new System.Drawing.Size(165, 46);
+            this.btnTaoXMLGiay.TabIndex = 4;
+            this.btnTaoXMLGiay.Text = "Tạo XML";
+            this.btnTaoXMLGiay.UseVisualStyleBackColor = true;
+            this.btnTaoXMLGiay.Click += new System.EventHandler(this.btnTaoXMLGiay_Click);
+            // 
             // btnThoatGiay
             // 
             this.btnThoatGiay.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnThoatGiay.Location = new System.Drawing.Point(1022, 35);
+            this.btnThoatGiay.Location = new System.Drawing.Point(736, 35);
             this.btnThoatGiay.Name = "btnThoatGiay";
             this.btnThoatGiay.Size = new System.Drawing.Size(165, 46);
             this.btnThoatGiay.TabIndex = 3;
@@ -457,7 +483,7 @@
             // btnXoaGiay
             // 
             this.btnXoaGiay.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnXoaGiay.Location = new System.Drawing.Point(720, 35);
+            this.btnXoaGiay.Location = new System.Drawing.Point(520, 35);
             this.btnXoaGiay.Name = "btnXoaGiay";
             this.btnXoaGiay.Size = new System.Drawing.Size(165, 46);
             this.btnXoaGiay.TabIndex = 2;
@@ -468,7 +494,7 @@
             // btnSuaGiay
             // 
             this.btnSuaGiay.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnSuaGiay.Location = new System.Drawing.Point(398, 35);
+            this.btnSuaGiay.Location = new System.Drawing.Point(304, 35);
             this.btnSuaGiay.Name = "btnSuaGiay";
             this.btnSuaGiay.Size = new System.Drawing.Size(165, 46);
             this.btnSuaGiay.TabIndex = 1;
@@ -627,6 +653,7 @@
             // 
             // tabQlHoaDon
             // 
+            this.tabQlHoaDon.Controls.Add(this.btnTaoXmlHoaDon);
             this.tabQlHoaDon.Controls.Add(this.groupBox3);
             this.tabQlHoaDon.Controls.Add(this.groupBox1);
             this.tabQlHoaDon.Controls.Add(this.label21);
@@ -641,6 +668,16 @@
             this.tabQlHoaDon.Text = "Quản Lý Hóa Đơn";
             this.tabQlHoaDon.UseVisualStyleBackColor = true;
             this.tabQlHoaDon.Click += new System.EventHandler(this.tabQlHoaDon_Click);
+            // 
+            // btnTaoXmlHoaDon
+            // 
+            this.btnTaoXmlHoaDon.Location = new System.Drawing.Point(1117, 331);
+            this.btnTaoXmlHoaDon.Name = "btnTaoXmlHoaDon";
+            this.btnTaoXmlHoaDon.Size = new System.Drawing.Size(123, 54);
+            this.btnTaoXmlHoaDon.TabIndex = 8;
+            this.btnTaoXmlHoaDon.Text = "Tạo XML";
+            this.btnTaoXmlHoaDon.UseVisualStyleBackColor = true;
+            this.btnTaoXmlHoaDon.Click += new System.EventHandler(this.btnTaoXmlHoaDon_Click);
             // 
             // groupBox3
             // 
@@ -848,6 +885,7 @@
             // 
             // groupBoxQLTaiKhoan67
             // 
+            this.groupBoxQLTaiKhoan67.Controls.Add(this.btnTaoXmlTaiKhoan);
             this.groupBoxQLTaiKhoan67.Controls.Add(this.btnThoat345);
             this.groupBoxQLTaiKhoan67.Controls.Add(this.btnXoa345);
             this.groupBoxQLTaiKhoan67.Controls.Add(this.btnSua345);
@@ -1458,6 +1496,16 @@
             this.label2.TabIndex = 1;
             this.label2.Text = "trang giới thiệu";
             // 
+            // btnTaoXmlTaiKhoan
+            // 
+            this.btnTaoXmlTaiKhoan.Location = new System.Drawing.Point(381, 144);
+            this.btnTaoXmlTaiKhoan.Name = "btnTaoXmlTaiKhoan";
+            this.btnTaoXmlTaiKhoan.Size = new System.Drawing.Size(126, 63);
+            this.btnTaoXmlTaiKhoan.TabIndex = 4;
+            this.btnTaoXmlTaiKhoan.Text = "Tạo XML";
+            this.btnTaoXmlTaiKhoan.UseVisualStyleBackColor = true;
+            this.btnTaoXmlTaiKhoan.Click += new System.EventHandler(this.btnTaoXmlTaiKhoan_Click);
+            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
@@ -1641,5 +1689,9 @@
         private System.Windows.Forms.Label label34;
         private System.Windows.Forms.Label label35;
         private System.Windows.Forms.Label label36;
+        private System.Windows.Forms.Button btnTaoXMLNV;
+        private System.Windows.Forms.Button btnTaoXMLGiay;
+        private System.Windows.Forms.Button btnTaoXmlHoaDon;
+        private System.Windows.Forms.Button btnTaoXmlTaiKhoan;
     }
 }
