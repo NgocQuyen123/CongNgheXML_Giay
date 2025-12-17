@@ -11,18 +11,6 @@ namespace QuanLyShopGiay
         public Form1()
         {
             InitializeComponent();
-            using (var context = new QLBanGiayContext())
-            {
-                try
-                {
-                    var nhanViens = context.NhanViens.ToList();
-                    MessageBox.Show("Kết nối DB thành công! Số nhân viên: " + nhanViens.Count);
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("Lỗi khi truy vấn DB: " + ex.Message);
-                }
-            }
 
         }
 

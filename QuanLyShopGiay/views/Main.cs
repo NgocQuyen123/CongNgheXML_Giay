@@ -1422,6 +1422,11 @@ namespace QuanLyShopGiay.views
                 MessageBox.Show("Lỗi khi tạo XML Tài Khoản:\n" + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
+        private void txtTenNV_TextChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }
 
