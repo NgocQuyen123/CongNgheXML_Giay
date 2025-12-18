@@ -4,6 +4,8 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Windows.Forms;
 using System.Linq;
+using System.Data.Entity;
+
 
 namespace QuanLyShopGiay.views
 {
@@ -102,8 +104,9 @@ namespace QuanLyShopGiay.views
             string username = text_username.Text.Trim();
             string password = text_password.Text.Trim();
 
-            // Kiểm tra placeholder
-            if (username == "Username" || password == "Password")
+            // Kiểm tra nhập liệu
+            if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password)
+                || username == "Username" || password == "Password")
             {
                 MessageBox.Show("Vui lòng nhập đầy đủ username và password!");
                 return;
@@ -111,35 +114,43 @@ namespace QuanLyShopGiay.views
 
             using (var db = new QLBanGiayContext())
             {
-                // Tìm tài khoản
                 var taiKhoan = db.TaiKhoans
+                                   .Include(t => t.NhanVien)
                                  .FirstOrDefault(t => t.TenTaiKhoan == username);
 
                 if (taiKhoan == null)
                 {
-                    MessageBox.Show("Username không tồn tại trong hệ thống!");
+                    MessageBox.Show("Username không tồn tại!");
                     return;
                 }
 
-                // Kiểm tra quyền
-                if (taiKhoan.QuyenHan != "Quản lý")
-                {
-                    MessageBox.Show("Bạn không có quyền truy cập! (Quyền yêu cầu: Quản lý)");
-                    return;
-                }
-
-                // Kiểm tra mật khẩu
                 if (taiKhoan.MatKhau != password)
                 {
                     MessageBox.Show("Mật khẩu không đúng!");
                     return;
                 }
 
-                // Đăng nhập thành công → mở form Main
-                Main mainForm = new Main();
-                this.Hide();
-                mainForm.ShowDialog();
-                this.Show();
+                if (ckbadmin.Checked)
+                {
+                    if (taiKhoan.TenTaiKhoan != "admin")
+                    {
+                        MessageBox.Show("Bạn phải đăng nhập bằng tài khoản admin!");
+                        return;
+                    }
+
+                    Main frmMain = new Main();
+                    this.Hide();
+                    frmMain.ShowDialog();
+                    this.Show();
+                }
+                else
+                {
+                    
+                    NhanVienForm frmNV = new NhanVienForm(taiKhoan);
+                    this.Hide();
+                    frmNV.ShowDialog();
+                    this.Show();
+                }
             }
         }
     }

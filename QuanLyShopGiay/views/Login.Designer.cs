@@ -33,6 +33,7 @@
             this.text_password = new System.Windows.Forms.TextBox();
             this.text_username = new System.Windows.Forms.TextBox();
             this.titleLogin = new System.Windows.Forms.Label();
+            this.ckbadmin = new System.Windows.Forms.CheckBox();
             this.bg_login.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -87,11 +88,22 @@
             this.titleLogin.TabIndex = 0;
             this.titleLogin.Text = "Sign In";
             // 
+            // ckbadmin
+            // 
+            this.ckbadmin.AutoSize = true;
+            this.ckbadmin.Location = new System.Drawing.Point(1158, 597);
+            this.ckbadmin.Name = "ckbadmin";
+            this.ckbadmin.Size = new System.Drawing.Size(78, 24);
+            this.ckbadmin.TabIndex = 1;
+            this.ckbadmin.Text = "admin";
+            this.ckbadmin.UseVisualStyleBackColor = true;
+            // 
             // Login
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1378, 844);
+            this.Controls.Add(this.ckbadmin);
             this.Controls.Add(this.bg_login);
             this.ForeColor = System.Drawing.Color.DodgerBlue;
             this.Name = "Login";
@@ -100,6 +112,7 @@
             this.bg_login.ResumeLayout(false);
             this.bg_login.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -110,5 +123,6 @@
         private System.Windows.Forms.TextBox text_username;
         private System.Windows.Forms.TextBox text_password;
         private System.Windows.Forms.Button btn_login;
+        private System.Windows.Forms.CheckBox ckbadmin;
     }
 }

@@ -30,21 +30,22 @@
         {
             this.button1 = new System.Windows.Forms.Button();
             this.btnMain = new System.Windows.Forms.Button();
+            this.btnDangKy = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // button1
             // 
             this.button1.Location = new System.Drawing.Point(161, 132);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(94, 52);
+            this.button1.Size = new System.Drawing.Size(166, 84);
             this.button1.TabIndex = 0;
-            this.button1.Text = "login";
+            this.button1.Text = "Đăng nhâp";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // btnMain
             // 
-            this.btnMain.Location = new System.Drawing.Point(306, 132);
+            this.btnMain.Location = new System.Drawing.Point(457, 132);
             this.btnMain.Name = "btnMain";
             this.btnMain.Size = new System.Drawing.Size(94, 52);
             this.btnMain.TabIndex = 1;
@@ -52,11 +53,21 @@
             this.btnMain.UseVisualStyleBackColor = true;
             this.btnMain.Click += new System.EventHandler(this.btnMain_Click);
             // 
+            // btnDangKy
+            // 
+            this.btnDangKy.Location = new System.Drawing.Point(161, 275);
+            this.btnDangKy.Name = "btnDangKy";
+            this.btnDangKy.Size = new System.Drawing.Size(166, 81);
+            this.btnDangKy.TabIndex = 2;
+            this.btnDangKy.Text = "Đăng ký";
+            this.btnDangKy.UseVisualStyleBackColor = true;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.btnDangKy);
             this.Controls.Add(this.btnMain);
             this.Controls.Add(this.button1);
             this.Name = "Form1";
@@ -70,6 +81,7 @@
 
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button btnMain;
+        private System.Windows.Forms.Button btnDangKy;
     }
 }
 
