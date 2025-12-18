@@ -12,6 +12,9 @@ using System.Windows.Forms;
 using System.IO;
 using System.Xml;
 using System.Data.Entity;
+using System.Data.Entity;
+using System.Windows.Forms.DataVisualization.Charting;
+
 
 namespace QuanLyShopGiay.views
 {
@@ -1535,6 +1538,123 @@ namespace QuanLyShopGiay.views
             );
 
             LoadChiTietHoaDon(maHD);
+        }
+
+        void ThongKeTongHop(DateTime tuNgay, DateTime denNgay)
+        {
+            using (var db = new QLBanGiayContext())
+            {
+                var hoaDons = db.HoaDons
+                    .Include(hd => hd.ChiTietHoaDons.Select(ct => ct.Giay))
+                    .Where(hd =>
+                        hd.trangThai == 1 &&
+                        hd.NgayLap >= tuNgay &&
+                        hd.NgayLap <= denNgay)
+                    .ToList();
+
+                txtTongHoaDon.Text = hoaDons.Count.ToString();
+
+                int tongSoLuong = hoaDons
+                    .SelectMany(hd => hd.ChiTietHoaDons)
+                    .Sum(ct => ct.SoLuongMua);
+
+                txtTongSoLuong.Text = tongSoLuong.ToString();
+
+                decimal tongDoanhThu = hoaDons
+                    .SelectMany(hd => hd.ChiTietHoaDons)
+                    .Sum(ct => ct.SoLuongMua * ct.Giay.Gia);
+
+                txtTongDoanhThu.Text = tongDoanhThu.ToString("N0");
+            }
+        }
+
+
+        void ThongKeSanPham(DateTime tuNgay, DateTime denNgay)
+        {
+            using (var db = new QLBanGiayContext())
+            {
+                var ds = db.ChiTietHoaDons
+                    .Include(ct => ct.Giay)
+                    .Include(ct => ct.HoaDon)
+                    .Where(ct =>
+                        ct.HoaDon.trangThai == 1 &&
+                        ct.HoaDon.NgayLap >= tuNgay &&
+                        ct.HoaDon.NgayLap <= denNgay)
+                    .GroupBy(ct => ct.Giay.TenGiay)
+                    .Select(g => new
+                    {
+                        TenGiay = g.Key,
+                        TongSoLuong = g.Sum(x => x.SoLuongMua),
+                        DoanhThu = g.Sum(x => x.SoLuongMua * x.Giay.Gia)
+                    })
+                    .ToList();
+
+                dgvThongKe.DataSource = ds;
+                dgvThongKe.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+
+                dgvThongKe.Columns["TenGiay"].HeaderText = "Tên giày";
+                dgvThongKe.Columns["TongSoLuong"].HeaderText = "Số lượng bán";
+                dgvThongKe.Columns["DoanhThu"].HeaderText = "Doanh thu (VNĐ)";
+            }
+        }
+
+
+        void VeBieuDo(DateTime tuNgay, DateTime denNgay)
+        {
+            chartDoanhThu.Series.Clear();
+            chartDoanhThu.ChartAreas.Clear();
+
+            chartDoanhThu.ChartAreas.Add("ChartArea1");
+
+            Series series = new Series("Doanh thu");
+            series.ChartType = SeriesChartType.Column;
+            series.IsValueShownAsLabel = true;
+
+            using (var db = new QLBanGiayContext())
+            {
+                var ds = db.HoaDons
+                    .Include(hd => hd.ChiTietHoaDons.Select(ct => ct.Giay))
+                    .Where(hd =>
+                        hd.trangThai == 1 &&
+                        hd.NgayLap >= tuNgay &&
+                        hd.NgayLap <= denNgay)
+                    .GroupBy(hd => DbFunctions.TruncateTime(hd.NgayLap))
+                    .Select(g => new
+                    {
+                        Ngay = g.Key.Value,
+                        DoanhThu = g.SelectMany(hd => hd.ChiTietHoaDons)
+                                    .Sum(ct => ct.SoLuongMua * ct.Giay.Gia)
+                    })
+                    .ToList();
+
+                foreach (var item in ds)
+                {
+                    series.Points.AddXY(
+                        item.Ngay.ToString("dd/MM"),
+                        item.DoanhThu
+                    );
+                }
+            }
+
+            chartDoanhThu.Series.Add(series);
+        }
+
+
+
+
+        private void grpBoLoc_Enter(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnThongKe_Click(object sender, EventArgs e)
+        {
+            DateTime tuNgay = dtpTuNgay.Value.Date;
+            DateTime denNgay = dtpDenNgay.Value.Date.AddDays(1).AddSeconds(-1);
+
+            ThongKeTongHop(tuNgay, denNgay);
+            ThongKeSanPham(tuNgay, denNgay);
+            VeBieuDo(tuNgay, denNgay);
         }
     }
 }
