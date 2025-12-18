@@ -25,6 +25,7 @@ namespace QuanLyShopGiay.views
         private string GiayXmlPath => Path.Combine(Application.StartupPath, "Giay.xml");
         private string HoaDonXmlPath => Path.Combine(Application.StartupPath, "HoaDon.xml");
         private string TaiKhoanXmlPath => Path.Combine(Application.StartupPath, "TaiKhoan.xml");
+        QLBanGiayContext db = new QLBanGiayContext();
         private void LoadGridFromXml(string filePath, DataGridView dgv)
         {
             if (!File.Exists(filePath))
@@ -1426,6 +1427,114 @@ namespace QuanLyShopGiay.views
         private void txtTenNV_TextChanged(object sender, EventArgs e)
         {
 
+        }
+
+        private void tabDuyetHoaDon_Click(object sender, EventArgs e)
+        {
+            LoadHoaDonChoDuyet();
+        }
+
+        void LoadHoaDonChoDuyet()
+        {
+            using (var db = new QLBanGiayContext())
+            {
+                var ds = db.HoaDons
+                    .Where(hd => hd.trangThai == 0)
+                    .Select(hd => new
+                    {
+                        hd.MaHD,
+                        KhachHang = hd.KhachHang.HoTen,
+                        NhanVien = hd.NhanVien.HoTen,
+                        hd.NgayLap
+                    })
+                    .ToList();
+
+                dgvDuyetHoaDon.DataSource = ds;
+                dgvDuyetHoaDon.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            }
+        }
+
+        private void dgvDuyetHoaDon_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex < 0) return;
+
+            DataGridViewRow row = dgvDuyetHoaDon.Rows[e.RowIndex];
+
+            txtMaHD.Text = row.Cells["MaHD"].Value.ToString();
+            txtKhachHang.Text = row.Cells["KhachHang"].Value.ToString();
+            txtNhanVien.Text = row.Cells["NhanVien"].Value.ToString();
+            txtNgayLap.Text = Convert.ToDateTime(row.Cells["NgayLap"].Value).ToString("yyyy-MM-dd");
+
+            LoadChiTietHoaDon(int.Parse(txtMaHD.Text));
+        }
+
+        void LoadChiTietHoaDon(int maHD)
+        {
+            using (var db = new QLBanGiayContext())
+            {
+                var ct = db.ChiTietHoaDons
+                    .Where(x => x.MaHD == maHD)
+                    .Select(x => new
+                    {
+                        TenGiay = x.Giay.TenGiay,
+                        x.KichCo,
+                        x.SoLuongMua,
+                        DonGia = x.Giay.Gia,
+                        ThanhTien = x.SoLuongMua * x.Giay.Gia
+                    })
+                    .ToList();
+
+                dgvChiTietHoaDon.DataSource = ct;
+            }
+        }
+
+        private void btnDuyet_Click(object sender, EventArgs e)
+        {
+            int maHD = int.Parse(txtMaHD.Text);
+
+            using (var db = new QLBanGiayContext())
+            {
+                var hd = db.HoaDons.Find(maHD);
+                hd.trangThai = 1;
+                db.SaveChanges();
+            }
+
+            MessageBox.Show("Duyệt hóa đơn thành công");
+            LoadHoaDonChoDuyet();
+        }
+
+        private void btnHuy_Click(object sender, EventArgs e)
+        {
+            int maHD = int.Parse(txtMaHD.Text);
+
+            using (var db = new QLBanGiayContext())
+            {
+                var hd = db.HoaDons.Find(maHD);
+                hd.trangThai = 2;
+                db.SaveChanges();
+            }
+
+            MessageBox.Show("Đã từ chối hóa đơn");
+            LoadHoaDonChoDuyet();
+        }
+
+        private void tabQlHeThong_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (tabQlHeThong.SelectedTab == tabDuyetHoaDon)
+            {
+                LoadHoaDonChoDuyet();
+            }
+        }
+
+        private void dgvChiTietHoaDon_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex < 0) return;
+
+            int maHD = Convert.ToInt32(
+                dgvChiTietHoaDon.Rows[e.RowIndex].Cells["MaHD"].Value
+            );
+
+            LoadChiTietHoaDon(maHD);
         }
     }
 }

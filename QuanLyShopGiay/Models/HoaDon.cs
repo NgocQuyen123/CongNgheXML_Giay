@@ -17,6 +17,8 @@ namespace QuanLyShopGiay.Models
         [ForeignKey("NhanVien")]
         public int MaNV { get; set; }
 
+        public int trangThai { get; set; }
+
         public DateTime NgayLap { get; set; }
 
         public virtual KhachHang KhachHang { get; set; }
