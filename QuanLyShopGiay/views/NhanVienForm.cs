@@ -161,7 +161,7 @@ namespace QuanLyShopGiay.views
 
             // Load lại grid hiển thị
             LoadGridHienThi();
-
+            TinhTongTien();
             // Clear input
             txtSoLuong.Clear();
             txtSize.Clear();
@@ -184,5 +184,21 @@ namespace QuanLyShopGiay.views
                 dgvChiTietHoaDon.DataSource = ds;
             }
         }
+        void TinhTongTien()
+        {
+            using (var db = new QLBanGiayContext())
+            {
+                decimal tong = 0;
+
+                foreach (var ct in _dsCTHD)
+                {
+                    var giay = db.Giays.First(g => g.MaGiay == ct.MaGiay);
+                    tong += giay.Gia * ct.SoLuongMua;
+                }
+
+                txtTongTien.Text = tong.ToString("N0"); // 1.000.000
+            }
+        }
+
     }
 }

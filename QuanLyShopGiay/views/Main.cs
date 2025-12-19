@@ -617,71 +617,58 @@ namespace QuanLyShopGiay.views
                 return;
             }
 
-            // 2. Load XML Tài Khoản
-            if (!File.Exists(TaiKhoanXmlPath))
+            using (var db = new QLBanGiayContext())
             {
-                MessageBox.Show("File XML Tài Khoản không tồn tại!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
-
-            DataSet ds = new DataSet();
-            ds.ReadXml(TaiKhoanXmlPath);
-            DataTable dt = ds.Tables[0];
-
-            // 3. Tìm tài khoản cần sửa
-            var row = dt.AsEnumerable().FirstOrDefault(r => r.Field<string>("MaTK") == maTK.ToString());
-            if (row == null)
-            {
-                MessageBox.Show("Tài khoản không tồn tại!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
-
-            // 4. Sửa từng trường nếu có nhập
-            if (!string.IsNullOrWhiteSpace(txtTK345.Text))
-                row["TenTaiKhoan"] = txtTK345.Text.Trim();
-
-            if (!string.IsNullOrWhiteSpace(txtMK345.Text))
-                row["MatKhau"] = txtMK345.Text.Trim();
-
-            if (!string.IsNullOrWhiteSpace(txtQuyen345.Text))
-                row["QuyenHan"] = txtQuyen345.Text.Trim();
-
-            if (!string.IsNullOrWhiteSpace(txtMaNV345.Text))
-            {
-                if (!int.TryParse(txtMaNV345.Text.Trim(), out int maNV))
+                // 1. Tìm tài khoản trong DB
+                var tk = db.TaiKhoans.FirstOrDefault(t => t.MaTK == maTK);
+                if (tk == null)
                 {
-                    MessageBox.Show("Mã nhân viên không hợp lệ!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Tài khoản không tồn tại trong DB!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
 
-                // Kiểm tra tồn tại nhân viên trong XML
-                DataSet dsNV = new DataSet();
-                if (!File.Exists(NhanVienXmlPath))
-                {
-                    MessageBox.Show("File XML Nhân Viên không tồn tại!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return;
-                }
-                dsNV.ReadXml(NhanVienXmlPath);
-                DataTable dtNV = dsNV.Tables[0];
+                // 2. Sửa các trường nếu có nhập
+                if (!string.IsNullOrWhiteSpace(txtTK345.Text))
+                    tk.TenTaiKhoan = txtTK345.Text.Trim();
 
-                bool tonTaiNV = dtNV.AsEnumerable().Any(r => r.Field<string>("MaNV") == maNV.ToString());
-                if (!tonTaiNV)
+                if (!string.IsNullOrWhiteSpace(txtMK345.Text))
+                    tk.MatKhau = txtMK345.Text.Trim();
+
+                if (!string.IsNullOrWhiteSpace(txtQuyen345.Text))
+                    tk.QuyenHan = txtQuyen345.Text.Trim();
+
+                if (!string.IsNullOrWhiteSpace(txtMaNV345.Text))
                 {
-                    MessageBox.Show("Mã nhân viên không tồn tại trong XML!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return;
+                    if (!int.TryParse(txtMaNV345.Text.Trim(), out int maNV))
+                    {
+                        MessageBox.Show("Mã nhân viên không hợp lệ!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
+
+                    // Kiểm tra tồn tại nhân viên trong DB
+                    var nv = db.NhanViens.FirstOrDefault(n => n.MaNV == maNV);
+                    if (nv == null)
+                    {
+                        MessageBox.Show("Mã nhân viên không tồn tại trong DB!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
+
+                    tk.MaNV = maNV;
                 }
 
-                row["MaNV"] = maNV;
+                // 3. Lưu thay đổi vào DB
+                db.SaveChanges();
             }
 
-            // 5. Lưu XML
-            ds.WriteXml(TaiKhoanXmlPath, XmlWriteMode.WriteSchema);
+            // 4. Đồng bộ lại XML từ DB
+            RegenerateTaiKhoanXml();
 
-            // 6. Load lại DataGridView
+            // 5. Load lại DataGridView và xóa textbox
             LoadTaiKhoan();
             ClearTextBoxes(tabQlTaiKhoan);
 
             MessageBox.Show("Sửa tài khoản thành công!", "Thành công", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
         }
 
 
@@ -1189,9 +1176,9 @@ namespace QuanLyShopGiay.views
         {
             // 1. Kiểm tra dữ liệu nhập
             if (string.IsNullOrWhiteSpace(txtTK345.Text) ||
-    string.IsNullOrWhiteSpace(txtMK345.Text) ||
-    string.IsNullOrWhiteSpace(txtQuyen345.Text) ||
-    string.IsNullOrWhiteSpace(txtMaNV345.Text))
+                string.IsNullOrWhiteSpace(txtMK345.Text) ||
+                string.IsNullOrWhiteSpace(txtQuyen345.Text) ||
+                string.IsNullOrWhiteSpace(txtMaNV345.Text))
             {
                 MessageBox.Show("Vui lòng nhập đầy đủ thông tin tài khoản!",
                                 "Thiếu dữ liệu",
@@ -1240,35 +1227,44 @@ namespace QuanLyShopGiay.views
                 return;
             }
 
-            // 4. Kiểm tra nhân viên tồn tại trong XML Nhân Viên
-            DataSet dsNV = new DataSet();
-            if (!File.Exists(NhanVienXmlPath))
+            using (var db = new QLBanGiayContext())
             {
-                MessageBox.Show("File XML Nhân Viên không tồn tại.", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
+                // 2. Kiểm tra nhân viên tồn tại trong DB
+                var nhanVien = db.NhanViens.FirstOrDefault(n => n.MaNV == maNV);
+                if (nhanVien == null)
+                {
+                    MessageBox.Show("Mã nhân viên không tồn tại trong DB!",
+                                    "Lỗi",
+                                    MessageBoxButtons.OK,
+                                    MessageBoxIcon.Error);
+                    return;
+                }
+
+                // 3. Kiểm tra tên tài khoản trùng trong DB
+                bool tonTaiTK_DB = db.TaiKhoans.Any(tk => tk.TenTaiKhoan == txtTK345.Text.Trim());
+                if (tonTaiTK_DB)
+                {
+                    MessageBox.Show("Tên tài khoản đã tồn tại trong DB!",
+                                    "Lỗi",
+                                    MessageBoxButtons.OK,
+                                    MessageBoxIcon.Error);
+                    return;
+                }
+
+                // 4. Thêm tài khoản mới vào DB
+                TaiKhoan tkMoi = new TaiKhoan
+                {
+                    TenTaiKhoan = txtTK345.Text.Trim(),
+                    MatKhau = txtMK345.Text.Trim(),
+                    QuyenHan = txtQuyen345.Text.Trim(),
+                    MaNV = maNV
+                };
+                db.TaiKhoans.Add(tkMoi);
+                db.SaveChanges();
             }
-            dsNV.ReadXml(NhanVienXmlPath);
-            DataTable dtNV = dsNV.Tables[0];
 
-            bool tonTaiNV = dtNV.AsEnumerable().Any(row => row.Field<string>("MaNV") == maNV.ToString());
-            if (!tonTaiNV)
-            {
-                MessageBox.Show("Mã nhân viên không tồn tại trong XML!",
-                                "Lỗi",
-                                MessageBoxButtons.OK,
-                                MessageBoxIcon.Error);
-                return;
-            }
-
-            // 5. Thêm tài khoản mới
-            int newMaTK = 1;
-            if (dt.Rows.Count > 0)
-                newMaTK = dt.AsEnumerable().Max(r => Convert.ToInt32(r["MaTK"])) + 1;
-
-            dt.Rows.Add(newMaTK, txtTK345.Text.Trim(), txtMK345.Text.Trim(), txtQuyen345.Text.Trim(), maNV);
-
-            // 6. Lưu lại XML
-            ds.WriteXml(TaiKhoanXmlPath, XmlWriteMode.WriteSchema);
+            // 5. Tạo lại XML từ DB để đồng bộ
+            RegenerateTaiKhoanXml();
 
             // 7. Load lại DataGridView từ XML
             LoadTaiKhoan();
@@ -1280,6 +1276,7 @@ namespace QuanLyShopGiay.views
                             "Thành công",
                             MessageBoxButtons.OK,
                             MessageBoxIcon.Information);
+
         }
 
         private void btnXoa345_Click(object sender, EventArgs e)
@@ -1302,47 +1299,42 @@ namespace QuanLyShopGiay.views
                 return;
             }
 
-            // 2. Load XML Tài Khoản
-            if (!File.Exists(TaiKhoanXmlPath))
+            using (var db = new QLBanGiayContext())
             {
-                MessageBox.Show("File XML Tài Khoản không tồn tại!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
+                // 1. Tìm tài khoản trong DB
+                var tk = db.TaiKhoans.FirstOrDefault(t => t.MaTK == maTK);
+                if (tk == null)
+                {
+                    MessageBox.Show("Tài khoản không tồn tại trong DB!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                // 2. Xác nhận xóa
+                var confirm = MessageBox.Show(
+                    $"Bạn có chắc chắn muốn xóa tài khoản [{tk.TenTaiKhoan}]?",
+                    "Xác nhận xóa",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Question
+                );
+                if (confirm != DialogResult.Yes)
+                    return;
+
+                // 3. Xóa tài khoản trong DB
+                db.TaiKhoans.Remove(tk);
+                db.SaveChanges();
             }
 
-            DataSet ds = new DataSet();
-            ds.ReadXml(TaiKhoanXmlPath);
-            DataTable dt = ds.Tables[0];
+            // 4. Đồng bộ lại XML từ DB
+            RegenerateTaiKhoanXml();
 
-            // 3. Tìm tài khoản
-            var row = dt.AsEnumerable().FirstOrDefault(r => r.Field<string>("MaTK") == maTK.ToString());
-            if (row == null)
-            {
-                MessageBox.Show("Tài khoản không tồn tại!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
-
-            // 4. Xác nhận xóa
-            var confirm = MessageBox.Show(
-                $"Bạn có chắc chắn muốn xóa tài khoản [{row["TenTaiKhoan"]}]?",
-                "Xác nhận xóa",
-                MessageBoxButtons.YesNo,
-                MessageBoxIcon.Question
-            );
-
-            if (confirm != DialogResult.Yes)
-                return;
-
-            // 5. Xóa và lưu lại XML
-            dt.Rows.Remove(row);
-            ds.WriteXml(TaiKhoanXmlPath, XmlWriteMode.WriteSchema);
-
-            // 6. Load lại DataGridView
+            // 5. Load lại DataGridView
             LoadTaiKhoan();
 
-            // 7. Xóa textbox
+            // 6. Xóa textbox
             ClearTextBoxes(tabQlTaiKhoan);
 
             MessageBox.Show("Xóa tài khoản thành công!", "Thành công", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
         }
 
         private void btnThoat345_Click(object sender, EventArgs e)
